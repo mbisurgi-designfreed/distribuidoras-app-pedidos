@@ -7,6 +7,7 @@ public class Chofer implements Serializable{
     private String nombre;
     private String apellido;
     private String dni;
+    private String password;
 
     public Chofer() {
     }
@@ -43,6 +44,14 @@ public class Chofer implements Serializable{
         this.dni = dni;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "Chofer{" +
@@ -50,6 +59,7 @@ public class Chofer implements Serializable{
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", dni='" + dni + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }
