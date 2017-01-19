@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
             String username = params[0];
             String password = params[1];
 
-            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/chofer/" + username + "/" + password;
+            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/chofer/login/" + username + "/" + password;
 
             try {
                 RestTemplate restTemplate = new RestTemplate();
