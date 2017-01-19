@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">distribuidoras-app-pedidos</string>
+    <string name="app_name">Pedidos</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <string name="username">DNI</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Login</string>
 </resources>
