@@ -8,7 +8,7 @@
     tools:context="com.designfreed.distribuidoras_app_pedidos.activities.MainActivity">
 
     <TextView
-        android:id="@+id/choferEntity"
+        android:id="@+id/chofer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"

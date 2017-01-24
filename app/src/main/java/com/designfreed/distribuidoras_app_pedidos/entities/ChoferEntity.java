@@ -1,9 +1,12 @@
 package com.designfreed.distribuidoras_app_pedidos.entities;
 
-import java.io.Serializable;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-public class ChoferEntity implements Serializable{
+public class ChoferEntity extends RealmObject {
+    @PrimaryKey
     private Long id;
+    private Long idCrm;
     private String nombre;
     private String apellido;
     private String dni;
@@ -18,6 +21,14 @@ public class ChoferEntity implements Serializable{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIdCrm() {
+        return idCrm;
+    }
+
+    public void setIdCrm(Long idCrm) {
+        this.idCrm = idCrm;
     }
 
     public String getNombre() {
@@ -55,7 +66,7 @@ public class ChoferEntity implements Serializable{
     @Override
     public String toString() {
         return "ChoferEntity{" +
-                "id=" + id +
+                "idCrm=" + idCrm +
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", dni='" + dni + '\'' +

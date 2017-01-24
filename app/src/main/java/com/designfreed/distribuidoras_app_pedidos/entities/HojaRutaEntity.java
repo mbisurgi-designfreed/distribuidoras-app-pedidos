@@ -1,10 +1,14 @@
 package com.designfreed.distribuidoras_app_pedidos.entities;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class HojaRutaEntity implements Serializable {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class HojaRutaEntity extends RealmObject {
+    @PrimaryKey
     private Long id;
+    private Long idCrm;
     private Date fecha;
     private ChoferEntity choferEntity;
     private Boolean estado;
@@ -19,6 +23,14 @@ public class HojaRutaEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIdCrm() {
+        return idCrm;
+    }
+
+    public void setIdCrm(Long idCrm) {
+        this.idCrm = idCrm;
     }
 
     public Date getFecha() {
@@ -56,7 +68,7 @@ public class HojaRutaEntity implements Serializable {
     @Override
     public String toString() {
         return "HojaRutaEntity{" +
-                "id=" + id +
+                "idCrm=" + idCrm +
                 ", fecha=" + fecha +
                 ", choferEntity=" + choferEntity +
                 ", estado=" + estado +

@@ -1,18 +1,22 @@
 package com.designfreed.distribuidoras_app_pedidos.entities;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MovimientoEntity implements Serializable {
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class MovimientoEntity extends RealmObject {
+    @PrimaryKey
     private Long id;
+    private Long idCrm;
     private Date fecha;
     private ClienteEntity clienteEntity;
     private CondicionVentaEntity condicionVentaEntity;
     private EstadoMovimientoEntity estadoMovimientoEntity;
     private HojaRutaEntity hojaRutaEntity;
-    private List<ItemMovimientoEntity> items = new ArrayList<>();
+    private RealmList<ItemMovimientoEntity> items;
 
     public MovimientoEntity() {
     }
@@ -23,6 +27,14 @@ public class MovimientoEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIdCrm() {
+        return idCrm;
+    }
+
+    public void setIdCrm(Long idCrm) {
+        this.idCrm = idCrm;
     }
 
     public Date getFecha() {
@@ -65,11 +77,11 @@ public class MovimientoEntity implements Serializable {
         this.hojaRutaEntity = hojaRutaEntity;
     }
 
-    public List<ItemMovimientoEntity> getItems() {
+    public RealmList<ItemMovimientoEntity> getItems() {
         return items;
     }
 
-    public void setItems(List<ItemMovimientoEntity> items) {
+    public void setItems(RealmList<ItemMovimientoEntity> items) {
         this.items = items;
     }
 }
