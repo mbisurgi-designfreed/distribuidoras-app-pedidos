@@ -1,15 +1,15 @@
-package com.designfreed.distribuidoras_app_pedidos.domain;
+package com.designfreed.distribuidoras_app_pedidos.entities;
 
 import java.io.Serializable;
 
-public class Chofer implements Serializable{
+public class ChoferEntity implements Serializable{
     private Long id;
     private String nombre;
     private String apellido;
     private String dni;
     private String password;
 
-    public Chofer() {
+    public ChoferEntity() {
     }
 
     public Long getId() {

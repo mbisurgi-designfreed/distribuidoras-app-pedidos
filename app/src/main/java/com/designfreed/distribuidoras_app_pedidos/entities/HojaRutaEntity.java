@@ -1,16 +1,16 @@
-package com.designfreed.distribuidoras_app_pedidos.domain;
+package com.designfreed.distribuidoras_app_pedidos.entities;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class HojaRuta implements Serializable {
+public class HojaRutaEntity implements Serializable {
     private Long id;
     private Date fecha;
-    private Chofer chofer;
+    private ChoferEntity choferEntity;
     private Boolean estado;
     private Boolean controlStock;
 
-    public HojaRuta() {
+    public HojaRutaEntity() {
     }
 
     public Long getId() {
@@ -29,12 +29,12 @@ public class HojaRuta implements Serializable {
         this.fecha = fecha;
     }
 
-    public Chofer getChofer() {
-        return chofer;
+    public ChoferEntity getChoferEntity() {
+        return choferEntity;
     }
 
-    public void setChofer(Chofer chofer) {
-        this.chofer = chofer;
+    public void setChoferEntity(ChoferEntity choferEntity) {
+        this.choferEntity = choferEntity;
     }
 
     public Boolean getEstado() {
@@ -58,7 +58,7 @@ public class HojaRuta implements Serializable {
         return "HojaRutaEntity{" +
                 "id=" + id +
                 ", fecha=" + fecha +
-                ", chofer=" + chofer +
+                ", choferEntity=" + choferEntity +
                 ", estado=" + estado +
                 ", controlStock=" + controlStock +
                 '}';
