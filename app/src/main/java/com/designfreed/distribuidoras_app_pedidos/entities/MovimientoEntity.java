@@ -77,11 +77,5 @@ public class MovimientoEntity extends RealmObject {
         this.hojaRutaEntity = hojaRutaEntity;
     }
 
-    public RealmList<ItemMovimientoEntity> getItems() {
-        return items;
-    }
 
-    public void setItems(RealmList<ItemMovimientoEntity> items) {
-        this.items = items;
-    }
 }
