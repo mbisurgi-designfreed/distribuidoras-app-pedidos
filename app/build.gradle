@@ -26,6 +26,17 @@ android {
     }
 }
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "io.realm:realm-gradle-plugin:2.3.0"
+    }
+}
+
+apply plugin: 'realm-android'
+
 repositories {
     maven {
         url 'https://repo.spring.io/libs-milestone'
