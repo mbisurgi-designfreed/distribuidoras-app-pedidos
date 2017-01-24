@@ -1,8 +1,11 @@
 package com.designfreed.distribuidoras_app_pedidos.activities;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.designfreed.distribuidoras_app_pedidos.R;
@@ -43,6 +46,24 @@ public class MainActivity extends AppCompatActivity {
         if (!existenEnvases()) {
             new LoadEnvasesTask().execute();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu:
+                //Intent intent = new Intent(this, CompraActivity.class);
+                //startActivity(intent);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private class LoadEnvasesTask extends AsyncTask<Void, Void, List<Envase>> {
