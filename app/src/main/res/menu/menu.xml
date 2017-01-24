@@ -4,6 +4,7 @@
     <item
         android:id="@+id/menu"
         android:orderInCategory="100"
+        android:icon="@drawable/refresh"
         android:title="Sync"
         app:showAsAction="always"/>
 </menu>
