@@ -1,17 +1,19 @@
 package com.designfreed.distribuidoras_app_pedidos.activities;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.designfreed.distribuidoras_app_pedidos.R;
 import com.designfreed.distribuidoras_app_pedidos.converters.DateConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.EnvaseEntityEnvaseConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.HojaRutaEntityHojaRutaConverter;
+import com.designfreed.distribuidoras_app_pedidos.converters.MovimientoEntityMovimientoConverter;
 import com.designfreed.distribuidoras_app_pedidos.domain.Chofer;
 import com.designfreed.distribuidoras_app_pedidos.domain.Envase;
 import com.designfreed.distribuidoras_app_pedidos.domain.HojaRuta;
@@ -32,6 +34,7 @@ import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
     private TextView txtChofer;
+    private ProgressBar pbProgress;
 
     private Chofer chofer;
     private HojaRuta hojaRuta;
@@ -49,13 +52,20 @@ public class MainActivity extends AppCompatActivity {
 
         txtChofer = (TextView) findViewById(R.id.chofer);
         txtChofer.setText(chofer.getNombre() + " " + chofer.getApellido());
+        pbProgress = (ProgressBar) findViewById(R.id.progress);
+
+        pbProgress.setVisibility(View.GONE);
 
         if (!existeHojaRuta()) {
             new LoadHojaRutaTask().execute();
+
+            pbProgress.setVisibility(View.VISIBLE);
         }
 
         if (!existenEnvases()) {
             new LoadEnvasesTask().execute();
+
+            pbProgress.setVisibility(View.VISIBLE);
         }
     }
 
@@ -69,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu:
+                new SyncMovimientosRemotoTask().execute();
+
+                pbProgress.setVisibility(View.VISIBLE);
 
                 return true;
         }
@@ -103,10 +116,12 @@ public class MainActivity extends AppCompatActivity {
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        realm.copyToRealmOrUpdate(new HojaRutaEntityHojaRutaConverter().HojaRutaToHojaRutaEntity(hojaRuta));
+                        realm.copyToRealmOrUpdate(new HojaRutaEntityHojaRutaConverter().hojaRutaToHojaRutaEntity(hojaRuta));
                     }
                 });
             }
+
+            pbProgress.setVisibility(View.GONE);
         }
     }
 
@@ -134,9 +149,11 @@ public class MainActivity extends AppCompatActivity {
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    realm.copyToRealmOrUpdate(new EnvaseEntityEnvaseConverter().EnvasesToEnvasesEntity(envases));
+                    realm.copyToRealmOrUpdate(new EnvaseEntityEnvaseConverter().envasesToEnvasesEntity(envases));
                 }
             });
+
+            pbProgress.setVisibility(View.GONE);
         }
     }
 
@@ -145,14 +162,32 @@ public class MainActivity extends AppCompatActivity {
         protected List<Movimiento> doInBackground(Void... params) {
             String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/movimiento/findByHojaRuta/" + hojaRuta.getId();
 
-            return null;
+            try {
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+                Movimiento[] movimientos = restTemplate.getForObject(url, Movimiento[].class);
+
+                return Arrays.asList(movimientos);
+            } catch (ResourceAccessException connectException) {
+                return null;
+            }
         }
 
         @Override
-        protected void onPostExecute(List<Movimiento> movimientos) {
+        protected void onPostExecute(final List<Movimiento> movimientos) {
             super.onPostExecute(movimientos);
 
+            if (movimientos != null) {
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.copyToRealmOrUpdate(new MovimientoEntityMovimientoConverter().movimientosToMovimientosEntity(movimientos));
+                    }
+                });
 
+                pbProgress.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -161,10 +196,11 @@ public class MainActivity extends AppCompatActivity {
 
         HojaRutaEntity hojaRuta = realm.where(HojaRutaEntity.class)
                 .equalTo("fecha", new Date(fecha))
-                .equalTo("chofer.idCrm", chofer.getId())
+                .equalTo("choferEntity.idCrm", chofer.getId())
                 .findFirst();
 
         if (hojaRuta != null) {
+            this.hojaRuta = new HojaRutaEntityHojaRutaConverter().hojaRutaEntityToHojaRuta(hojaRuta);
             return true;
         } else {
             return false;

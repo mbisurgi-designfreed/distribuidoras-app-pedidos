@@ -14,6 +14,7 @@ public class Movimiento implements Serializable {
     private EstadoMovimiento estadoMovimiento;
     private HojaRuta hojaRuta;
     private List<ItemMovimiento> items = new ArrayList<>();
+    private Boolean sincronizado;
 
     public Movimiento() {
     }
@@ -80,5 +81,13 @@ public class Movimiento implements Serializable {
 
     public void setItems(List<ItemMovimiento> items) {
         this.items = items;
+    }
+
+    public Boolean getSincronizado() {
+        return sincronizado;
+    }
+
+    public void setSincronizado(Boolean sincronizado) {
+        this.sincronizado = sincronizado;
     }
 }
