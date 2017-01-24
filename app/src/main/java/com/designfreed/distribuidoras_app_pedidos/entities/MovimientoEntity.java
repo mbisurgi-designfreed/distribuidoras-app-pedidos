@@ -1,7 +1,6 @@
 package com.designfreed.distribuidoras_app_pedidos.entities;
 
 import java.util.Date;
-import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -14,9 +13,11 @@ public class MovimientoEntity extends RealmObject {
     private Date fecha;
     private ClienteEntity clienteEntity;
     private CondicionVentaEntity condicionVentaEntity;
+    private TipoMovimientoEntity tipoMovimientoEntity;
     private EstadoMovimientoEntity estadoMovimientoEntity;
     private HojaRutaEntity hojaRutaEntity;
     private RealmList<ItemMovimientoEntity> items;
+    private Boolean sincronizado;
 
     public MovimientoEntity() {
     }
@@ -61,6 +62,14 @@ public class MovimientoEntity extends RealmObject {
         this.condicionVentaEntity = condicionVentaEntity;
     }
 
+    public TipoMovimientoEntity getTipoMovimientoEntity() {
+        return tipoMovimientoEntity;
+    }
+
+    public void setTipoMovimientoEntity(TipoMovimientoEntity tipoMovimientoEntity) {
+        this.tipoMovimientoEntity = tipoMovimientoEntity;
+    }
+
     public EstadoMovimientoEntity getEstadoMovimientoEntity() {
         return estadoMovimientoEntity;
     }
@@ -77,5 +86,19 @@ public class MovimientoEntity extends RealmObject {
         this.hojaRutaEntity = hojaRutaEntity;
     }
 
+    public RealmList<ItemMovimientoEntity> getItems() {
+        return items;
+    }
 
+    public void setItems(RealmList<ItemMovimientoEntity> items) {
+        this.items = items;
+    }
+
+    public Boolean getSincronizado() {
+        return sincronizado;
+    }
+
+    public void setSincronizado(Boolean sincronizado) {
+        this.sincronizado = sincronizado;
+    }
 }

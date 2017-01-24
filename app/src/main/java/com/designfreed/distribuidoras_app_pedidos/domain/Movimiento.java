@@ -10,9 +10,11 @@ public class Movimiento implements Serializable {
     private Date fecha;
     private Cliente cliente;
     private CondicionVenta condicionVenta;
+    private TipoMovimiento tipoMovimiento;
     private EstadoMovimiento estadoMovimiento;
     private HojaRuta hojaRuta;
     private List<ItemMovimiento> items = new ArrayList<>();
+    private Boolean sincronizado;
 
     public Movimiento() {
     }
@@ -49,6 +51,14 @@ public class Movimiento implements Serializable {
         this.condicionVenta = condicionVenta;
     }
 
+    public TipoMovimiento getTipoMovimiento() {
+        return tipoMovimiento;
+    }
+
+    public void setTipoMovimiento(TipoMovimiento tipoMovimiento) {
+        this.tipoMovimiento = tipoMovimiento;
+    }
+
     public EstadoMovimiento getEstadoMovimiento() {
         return estadoMovimiento;
     }
@@ -71,5 +81,13 @@ public class Movimiento implements Serializable {
 
     public void setItems(List<ItemMovimiento> items) {
         this.items = items;
+    }
+
+    public Boolean getSincronizado() {
+        return sincronizado;
+    }
+
+    public void setSincronizado(Boolean sincronizado) {
+        this.sincronizado = sincronizado;
     }
 }

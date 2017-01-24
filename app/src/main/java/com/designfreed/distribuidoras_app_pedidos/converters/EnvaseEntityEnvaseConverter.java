@@ -11,7 +11,18 @@ public class EnvaseEntityEnvaseConverter {
 
     }
 
-    public List<EnvaseEntity> EnvasesToEnvasesEntity(List<Envase> envases) {
+    public EnvaseEntity envaseToEnvaseEntity(Envase envase) {
+        EnvaseEntity envaseEntity = new EnvaseEntity();
+        envaseEntity.setId(envase.getId());
+        envaseEntity.setIdCrm(envase.getId());
+        envaseEntity.setEnvaseCodigo(envase.getEnvaseCodigo());
+        envaseEntity.setEnvaseNombre(envase.getEnvaseNombre());
+        envaseEntity.setKilos(envase.getKilos());
+
+        return envaseEntity;
+    }
+
+    public List<EnvaseEntity> envasesToEnvasesEntity(List<Envase> envases) {
         List<EnvaseEntity> envasesEntity = new ArrayList<>();
 
         for (Envase envase: envases) {

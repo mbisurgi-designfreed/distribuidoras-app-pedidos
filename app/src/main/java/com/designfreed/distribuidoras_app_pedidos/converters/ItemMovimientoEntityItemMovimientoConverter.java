@@ -1,0 +1,29 @@
+package com.designfreed.distribuidoras_app_pedidos.converters;
+
+import com.designfreed.distribuidoras_app_pedidos.domain.ItemMovimiento;
+import com.designfreed.distribuidoras_app_pedidos.entities.ItemMovimientoEntity;
+
+import java.util.List;
+
+import io.realm.RealmList;
+
+public class ItemMovimientoEntityItemMovimientoConverter {
+    public ItemMovimientoEntityItemMovimientoConverter() {
+    }
+
+    public RealmList<ItemMovimientoEntity> itemsMovimientoToItemsMovimientoEntity(List<ItemMovimiento> items) {
+        RealmList<ItemMovimientoEntity> itemsEntity = new RealmList<>();
+
+        for (ItemMovimiento item: items) {
+            ItemMovimientoEntity itemEntity = new ItemMovimientoEntity();
+            itemEntity.setId(item.getId());
+            itemEntity.setIdCrm(item.getId());
+            itemEntity.setEnvaseEntity(new EnvaseEntityEnvaseConverter().envaseToEnvaseEntity(item.getEnvase()));
+            itemEntity.setCantidad(item.getCantidad());
+
+            itemsEntity.add(itemEntity);
+        }
+
+        return itemsEntity;
+    }
+}
