@@ -168,6 +168,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Movimiento[] movimientos = restTemplate.getForObject(url, Movimiento[].class);
 
+
+
                 return Arrays.asList(movimientos);
             } catch (ResourceAccessException connectException) {
                 return null;
