@@ -13,6 +13,7 @@ public class MovimientoEntity extends RealmObject {
     private Date fecha;
     private ClienteEntity clienteEntity;
     private CondicionVentaEntity condicionVentaEntity;
+    private TipoMovimientoEntity tipoMovimientoEntity;
     private EstadoMovimientoEntity estadoMovimientoEntity;
     private HojaRutaEntity hojaRutaEntity;
     private RealmList<ItemMovimientoEntity> items;
@@ -59,6 +60,14 @@ public class MovimientoEntity extends RealmObject {
 
     public void setCondicionVentaEntity(CondicionVentaEntity condicionVentaEntity) {
         this.condicionVentaEntity = condicionVentaEntity;
+    }
+
+    public TipoMovimientoEntity getTipoMovimientoEntity() {
+        return tipoMovimientoEntity;
+    }
+
+    public void setTipoMovimientoEntity(TipoMovimientoEntity tipoMovimientoEntity) {
+        this.tipoMovimientoEntity = tipoMovimientoEntity;
     }
 
     public EstadoMovimientoEntity getEstadoMovimientoEntity() {
