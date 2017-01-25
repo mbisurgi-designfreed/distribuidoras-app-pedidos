@@ -15,4 +15,12 @@ public class EstadoMovimientoEntityEstadoMovimientoConverter {
 
         return estadoMovimientoEntity;
     }
+
+    public EstadoMovimiento estadoMovimientoEntityToEstadoMovimiento(EstadoMovimientoEntity estadoMovimientoEntity) {
+        EstadoMovimiento estadoMovimiento = new EstadoMovimiento();
+        estadoMovimiento.setId(estadoMovimientoEntity.getIdCrm());
+        estadoMovimiento.setEstadoMovimientoNombre(estadoMovimientoEntity.getEstadoMovimientoNombre());
+
+        return estadoMovimiento;
+    }
 }

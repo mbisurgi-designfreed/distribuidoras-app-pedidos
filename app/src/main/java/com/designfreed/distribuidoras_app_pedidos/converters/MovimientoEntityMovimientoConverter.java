@@ -31,4 +31,25 @@ public class MovimientoEntityMovimientoConverter {
 
         return movimientosEntity;
     }
+
+    public List<MovimientoEntity> movimientosEntityToMovimientos(List<MovimientoEntity> movimientosEntity) {
+        List<Movimiento> movimientos = new ArrayList<>();
+
+        for (MovimientoEntity movimientoEntity: movimientosEntity) {
+            Movimiento movimiento = new Movimiento();
+            movimiento.setId(movimientoEntity.getIdCrm());
+            movimiento.setFecha(movimientoEntity.getFecha());
+            movimiento.setCliente(new ClienteEntityClienteConverter().clienteEntityToCliente(movimientoEntity.getClienteEntity()));
+            movimiento.setCondicionVenta(new CondicionVentaEntityCondicionVentaConverter().condicionVentaEntityToCondicionVenta(movimientoEntity.getCondicionVentaEntity()));
+            movimiento.setTipoMovimiento(new TipoMovimientoEntityTipoMovimientoConverter().tipoMovimientoEntityToTipoMovimiento(movimientoEntity.getTipoMovimientoEntity()));
+            movimiento.setEstadoMovimiento(new EstadoMovimientoEntityEstadoMovimientoConverter().estadoMovimientoEntityToEstadoMovimiento(movimientoEntity.getEstadoMovimientoEntity()));
+            movimiento.setHojaRuta(new HojaRutaEntityHojaRutaConverter().hojaRutaEntityToHojaRuta(movimientoEntity.getHojaRutaEntity()));
+            movimiento.setItems(new ItemMovimientoEntityItemMovimientoConverter().itemsMovimientoEntityToItemsMovimiento(movimientoEntity.getItems()));
+            movimiento.setSincronizado(movimientoEntity.getSincronizado());
+
+            movimientosEntity.add(movimientoEntity);
+        }
+
+        return movimientosEntity;
+    }
 }

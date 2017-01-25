@@ -15,4 +15,12 @@ public class TipoMovimientoEntityTipoMovimientoConverter {
 
         return tipoMovimientoEntity;
     }
+
+    public TipoMovimiento tipoMovimientoEntityToTipoMovimiento(TipoMovimientoEntity tipoMovimientoEntity) {
+        TipoMovimiento tipoMovimiento = new TipoMovimiento();
+        tipoMovimiento.setId(tipoMovimientoEntity.getIdCrm());
+        tipoMovimiento.setTipoMovimientoNombre(tipoMovimientoEntity.getTipoMovimientoNombre());
+
+        return tipoMovimiento;
+    }
 }

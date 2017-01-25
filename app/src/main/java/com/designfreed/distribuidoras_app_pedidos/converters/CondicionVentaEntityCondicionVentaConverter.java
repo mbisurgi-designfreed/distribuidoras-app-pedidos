@@ -15,4 +15,12 @@ public class CondicionVentaEntityCondicionVentaConverter {
 
         return condicionVentaEntity;
     }
+
+    public CondicionVenta condicionVentaEntityToCondicionVenta(CondicionVentaEntity condicionVentaEntity) {
+        CondicionVenta condicionVenta = new CondicionVenta();
+        condicionVenta.setId(condicionVentaEntity.getIdCrm());
+        condicionVenta.setCondicionVentaNombre(condicionVentaEntity.getCondicionVentaNombre());
+
+        return condicionVenta;
+    }
 }

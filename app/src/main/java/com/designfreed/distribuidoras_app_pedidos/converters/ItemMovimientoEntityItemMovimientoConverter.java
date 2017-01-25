@@ -3,6 +3,7 @@ package com.designfreed.distribuidoras_app_pedidos.converters;
 import com.designfreed.distribuidoras_app_pedidos.domain.ItemMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.entities.ItemMovimientoEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.RealmList;
@@ -25,5 +26,20 @@ public class ItemMovimientoEntityItemMovimientoConverter {
         }
 
         return itemsEntity;
+    }
+
+    public List<ItemMovimiento> itemsMovimientoEntityToItemsMovimiento(RealmList<ItemMovimientoEntity> itemsEntity) {
+        List<ItemMovimiento> items = new ArrayList<>();
+
+        for (ItemMovimientoEntity itemEntity: itemsEntity) {
+            ItemMovimiento item = new ItemMovimiento();
+            item.setId(itemEntity.getIdCrm());
+            item.setEnvase(new EnvaseEntityEnvaseConverter().envaseEntityToEnvase(itemEntity.getEnvaseEntity()));
+            item.setCantidad(itemEntity.getCantidad());
+
+            items.add(item);
+        }
+
+        return items;
     }
 }

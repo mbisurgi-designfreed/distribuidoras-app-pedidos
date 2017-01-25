@@ -19,4 +19,16 @@ public class ClienteEntityClienteConverter {
 
         return clienteEntity;
     }
+
+    public Cliente clienteEntityToCliente(ClienteEntity clienteEntity) {
+        Cliente cliente = new Cliente();
+        cliente.setId(clienteEntity.getIdCrm());
+        cliente.setRazonSocial(clienteEntity.getRazonSocial());
+        cliente.setCalle(clienteEntity.getCalle());
+        cliente.setAltura(clienteEntity.getAltura());
+        cliente.setTelefono(clienteEntity.getTelefono());
+        cliente.setCondicionVenta(new CondicionVentaEntityCondicionVentaConverter().condicionVentaEntityToCondicionVenta(clienteEntity.getCondicionVentaEntity()));
+
+        return cliente;
+    }
 }
