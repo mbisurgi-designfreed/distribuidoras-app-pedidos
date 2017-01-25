@@ -21,6 +21,8 @@ import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
 import com.designfreed.distribuidoras_app_pedidos.entities.EnvaseEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.HojaRutaEntity;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
@@ -36,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtChofer;
     private ProgressBar pbProgress;
 
-    private Chofer chofer;
-    private HojaRuta hojaRuta;
+    private Chofer activeChofer;
+    private HojaRuta activeHojaRuta;
 
     private Realm realm;
 
@@ -48,10 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
         realm = Realm.getDefaultInstance();
 
-        chofer = (Chofer) getIntent().getSerializableExtra("chofer");
+        activeChofer = (Chofer) getIntent().getSerializableExtra("chofer");
 
         txtChofer = (TextView) findViewById(R.id.chofer);
-        txtChofer.setText(chofer.getNombre() + " " + chofer.getApellido());
+        txtChofer.setText(activeChofer.getNombre() + " " + activeChofer.getApellido());
         pbProgress = (ProgressBar) findViewById(R.id.progress);
 
         pbProgress.setVisibility(View.GONE);
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         protected HojaRuta doInBackground(Void... params) {
             Long fecha = new DateConverter().dateToLong(new Date());
 
-            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/hojaRuta/findByFechaChofer/" + fecha + "/" + chofer.getId();
+            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/hojaRuta/findByFechaChofer/" + fecha + "/" + activeChofer.getId();
 
             try {
                 RestTemplate restTemplate = new RestTemplate();
@@ -113,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(hojaRuta);
 
             if (hojaRuta != null) {
+                activeHojaRuta = hojaRuta;
+
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
@@ -160,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
     private class SyncMovimientosRemotoTask extends AsyncTask<Void, Void, List<Movimiento>> {
         @Override
         protected List<Movimiento> doInBackground(Void... params) {
-            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/movimiento/findByHojaRuta/" + hojaRuta.getId();
+            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/movimiento/findByHojaRutaSincronizado/" + activeHojaRuta.getId() + "/false";
 
             try {
                 RestTemplate restTemplate = new RestTemplate();
@@ -168,7 +172,17 @@ public class MainActivity extends AppCompatActivity {
 
                 Movimiento[] movimientos = restTemplate.getForObject(url, Movimiento[].class);
 
+                for (Movimiento movimiento: movimientos) {
+                    movimiento.setSincronizado(true);
+                }
 
+                String post = "http://bybgas.dyndns.org:8080/distribuidoras-backend/movimiento/add";
+
+                ResponseEntity<Movimiento[]> response = restTemplate.postForEntity(post, movimientos, Movimiento[].class);
+
+                if (response.getStatusCode() != HttpStatus.OK) {
+                    return null;
+                }
 
                 return Arrays.asList(movimientos);
             } catch (ResourceAccessException connectException) {
@@ -198,11 +212,11 @@ public class MainActivity extends AppCompatActivity {
 
         HojaRutaEntity hojaRuta = realm.where(HojaRutaEntity.class)
                 .equalTo("fecha", new Date(fecha))
-                .equalTo("choferEntity.idCrm", chofer.getId())
+                .equalTo("choferEntity.idCrm", activeChofer.getId())
                 .findFirst();
 
         if (hojaRuta != null) {
-            this.hojaRuta = new HojaRutaEntityHojaRutaConverter().hojaRutaEntityToHojaRuta(hojaRuta);
+            this.activeHojaRuta = new HojaRutaEntityHojaRutaConverter().hojaRutaEntityToHojaRuta(hojaRuta);
             return true;
         } else {
             return false;
