@@ -39,6 +39,9 @@ public class MovimientoAdapter extends ArrayAdapter<Movimiento> {
         TextView altura = (TextView) listItemView.findViewById(R.id.altura);
         altura.setText(movimiento.getCliente().getAltura());
 
+        TextView estado = (TextView) listItemView.findViewById(R.id.estado);
+        estado.setText(movimiento.getEstadoMovimiento().getEstadoMovimientoNombre());
+
         Float kg = 0f;
 
         for (ItemMovimiento item: movimiento.getItems()) {

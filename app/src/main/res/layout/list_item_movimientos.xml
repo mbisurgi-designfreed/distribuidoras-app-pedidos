@@ -74,14 +74,14 @@
                 android:id="@+id/kilos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="textEnd"
+                android:textAlignment="textStart"
                 tools:text="50kg"/>
 
             <TextView
                 android:id="@+id/pesos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="textEnd"
+                android:textAlignment="textStart"
                 tools:text="$200"/>
         </LinearLayout>
     </LinearLayout>

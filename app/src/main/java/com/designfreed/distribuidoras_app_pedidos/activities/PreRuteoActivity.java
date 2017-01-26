@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.designfreed.distribuidoras_app_pedidos.R;
 import com.designfreed.distribuidoras_app_pedidos.adapters.MovimientoAdapter;
+import com.designfreed.distribuidoras_app_pedidos.converters.MovimientoEntityMovimientoConverter;
 import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
 import com.designfreed.distribuidoras_app_pedidos.domain.TipoMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
@@ -27,6 +28,7 @@ public class PreRuteoActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     private MovimientoAdapter adapter;
+    private List<Movimiento> activeMovimientos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,12 @@ public class PreRuteoActivity extends AppCompatActivity {
 
             }
         });
+
+        TipoMovimiento tipo = new TipoMovimiento();
+        tipo.setId(1L);
+        tipo.setTipoMovimientoNombre("Pre Ruteo");
+
+        new LoadMovimientosTask().execute(tipo);
     }
 
     private class LoadMovimientosTask extends AsyncTask<TipoMovimiento, Void, List<Movimiento>> {
@@ -63,16 +71,25 @@ public class PreRuteoActivity extends AppCompatActivity {
                             .equalTo("tipoMovimientoEntity.idCrm", tipo.getId())
                             .findAll();
 
-
+                    activeMovimientos = new MovimientoEntityMovimientoConverter().movimientosEntityToMovimientos(movimientos);
                 }
             });
 
-            return null;
+            return activeMovimientos;
         }
 
         @Override
         protected void onPostExecute(List<Movimiento> movimientos) {
             super.onPostExecute(movimientos);
+
+            if (activeMovimientos != null && !activeMovimientos.isEmpty()) {
+                emptyView.setText("");
+                adapter.addAll(activeMovimientos);
+            } else {
+                emptyView.setText("No existen movimientos. Realice una sincronizacion para obtener nuevos movimientos.");
+            }
+
+            progressBar.setVisibility(View.GONE);
         }
     }
 }

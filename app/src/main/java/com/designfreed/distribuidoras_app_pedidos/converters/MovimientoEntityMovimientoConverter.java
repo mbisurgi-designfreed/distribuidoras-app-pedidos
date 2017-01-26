@@ -6,6 +6,8 @@ import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.RealmResults;
+
 public class MovimientoEntityMovimientoConverter {
     public MovimientoEntityMovimientoConverter() {
     }
@@ -32,7 +34,7 @@ public class MovimientoEntityMovimientoConverter {
         return movimientosEntity;
     }
 
-    public List<MovimientoEntity> movimientosEntityToMovimientos(List<MovimientoEntity> movimientosEntity) {
+    public List<Movimiento> movimientosEntityToMovimientos(RealmResults<MovimientoEntity> movimientosEntity) {
         List<Movimiento> movimientos = new ArrayList<>();
 
         for (MovimientoEntity movimientoEntity: movimientosEntity) {
@@ -47,9 +49,9 @@ public class MovimientoEntityMovimientoConverter {
             movimiento.setItems(new ItemMovimientoEntityItemMovimientoConverter().itemsMovimientoEntityToItemsMovimiento(movimientoEntity.getItems()));
             movimiento.setSincronizado(movimientoEntity.getSincronizado());
 
-            movimientosEntity.add(movimientoEntity);
+            movimientos.add(movimiento);
         }
 
-        return movimientosEntity;
+        return movimientos;
     }
 }

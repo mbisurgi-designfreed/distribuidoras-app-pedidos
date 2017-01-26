@@ -1,11 +1,13 @@
 package com.designfreed.distribuidoras_app_pedidos.activities;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -37,6 +39,7 @@ import io.realm.RealmResults;
 public class MainActivity extends AppCompatActivity {
     private TextView txtChofer;
     private ProgressBar pbProgress;
+    private ImageButton preRuteos;
 
     private Chofer activeChofer;
     private HojaRuta activeHojaRuta;
@@ -55,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
         txtChofer = (TextView) findViewById(R.id.chofer);
         txtChofer.setText(activeChofer.getNombre() + " " + activeChofer.getApellido());
         pbProgress = (ProgressBar) findViewById(R.id.progress);
+        preRuteos = (ImageButton) findViewById(R.id.pre_ruteos);
+        preRuteos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), PreRuteoActivity.class);
+                startActivity(intent);
+            }
+        });
 
         pbProgress.setVisibility(View.GONE);
 
