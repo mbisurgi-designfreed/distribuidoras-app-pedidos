@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.PreRuteoActivity"></activity>
+        <activity android:name=".activities.MovimientoActivity"></activity>
     </application>
 
 </manifest>

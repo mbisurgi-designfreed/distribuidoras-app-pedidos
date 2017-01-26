@@ -22,11 +22,12 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class PreRuteoActivity extends AppCompatActivity {
+public class MovimientoActivity extends AppCompatActivity {
     private TextView emptyView;
     private ListView movimientosListView;
     private ProgressBar progressBar;
 
+    private Long tipoMovimientoId;
     private MovimientoAdapter adapter;
     private List<Movimiento> activeMovimientos;
 
@@ -34,6 +35,8 @@ public class PreRuteoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movimiento);
+
+        tipoMovimientoId = (Long) getIntent().getSerializableExtra("tipo");
 
         emptyView = (TextView) findViewById(R.id.empty);
         progressBar = (ProgressBar) findViewById(R.id.progress);
@@ -50,25 +53,21 @@ public class PreRuteoActivity extends AppCompatActivity {
             }
         });
 
-        TipoMovimiento tipo = new TipoMovimiento();
-        tipo.setId(1L);
-        tipo.setTipoMovimientoNombre("Pre Ruteo");
-
-        new LoadMovimientosTask().execute(tipo);
+        new LoadMovimientosTask().execute(tipoMovimientoId);
     }
 
-    private class LoadMovimientosTask extends AsyncTask<TipoMovimiento, Void, List<Movimiento>> {
+    private class LoadMovimientosTask extends AsyncTask<Long, Void, List<Movimiento>> {
         @Override
-        protected List<Movimiento> doInBackground(TipoMovimiento... params) {
+        protected List<Movimiento> doInBackground(Long... params) {
             Realm realm = Realm.getDefaultInstance();
 
-            final TipoMovimiento tipo = params[0];
+            final Long tipoId = params[0];
 
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
                     RealmResults<MovimientoEntity> movimientos = realm.where(MovimientoEntity.class)
-                            .equalTo("tipoMovimientoEntity.idCrm", tipo.getId())
+                            .equalTo("tipoMovimientoEntity.idCrm", tipoId)
                             .findAll();
 
                     activeMovimientos = new MovimientoEntityMovimientoConverter().movimientosEntityToMovimientos(movimientos);

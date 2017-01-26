@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtChofer;
     private ProgressBar pbProgress;
     private ImageButton preRuteos;
+    private ImageButton pedidos;
 
     private Chofer activeChofer;
     private HojaRuta activeHojaRuta;
@@ -62,7 +63,18 @@ public class MainActivity extends AppCompatActivity {
         preRuteos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), PreRuteoActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MovimientoActivity.class);
+                intent.putExtra("tipo", 1L);
+                startActivity(intent);
+            }
+        });
+
+        pedidos = (ImageButton) findViewById(R.id.pedidos);
+        pedidos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MovimientoActivity.class);
+                intent.putExtra("tipo", 2L);
                 startActivity(intent);
             }
         });
