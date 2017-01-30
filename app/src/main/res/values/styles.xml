@@ -28,4 +28,9 @@
         <item name="android:scaleType">centerInside</item>
         <item name="android:background">#043d5d</item>
     </style>
+    
+    <style name="LoginEditText">
+        <item name="android:colorControlNormal">#5ECBF4</item>
+        <item name="android:colorControlActivated">#15ABCE</item>
+    </style>
 </resources>

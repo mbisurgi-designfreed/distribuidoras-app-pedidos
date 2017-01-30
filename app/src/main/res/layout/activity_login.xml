@@ -8,37 +8,57 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorAccent"
     tools:context="com.designfreed.distribuidoras_app_pedidos.activities.LoginActivity">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/app"
+        android:layout_centerHorizontal="true"/>
 
     <LinearLayout
         android:id="@+id/linear_layout"
+        android:layout_below="@id/logo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
         android:orientation="vertical">
 
         <EditText
             android:id="@+id/username"
+            android:textColorHint="#0793D8"
+            android:textColor="#FFFFFF"
+            android:textAlignment="center"
+            android:theme="@style/LoginEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="35dp"
             android:hint="@string/username"
             android:inputType="number"/>
 
         <EditText
             android:id="@+id/password"
+            android:textColorHint="#0793D8"
+            android:textColor="#FFFFFF"
+            android:textAlignment="center"
+            android:theme="@style/LoginEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
             android:inputType="textPassword"/>
     </LinearLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/login"
+        android:background="#0067AC"
         android:layout_below="@id/linear_layout"
-        android:layout_centerHorizontal="true"
-        android:text="@string/login"/>
+        android:layout_centerHorizontal="true"/>
 
     <ProgressBar
         android:id="@+id/progress"

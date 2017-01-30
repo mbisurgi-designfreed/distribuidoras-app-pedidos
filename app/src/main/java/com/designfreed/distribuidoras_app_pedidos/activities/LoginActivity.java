@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ import org.springframework.web.client.RestTemplate;
 public class LoginActivity extends AppCompatActivity {
     private EditText txtUsername;
     private EditText txtPassword;
-    private Button btnLogin;
+    private ImageButton btnLogin;
     private ProgressBar pbProgress;
 
     @Override
@@ -32,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
         txtUsername = (EditText) findViewById(R.id.username);
         txtPassword = (EditText) findViewById(R.id.password);
-        btnLogin = (Button) findViewById(R.id.login);
+        btnLogin = (ImageButton) findViewById(R.id.login);
         pbProgress = (ProgressBar) findViewById(R.id.progress);
 
         pbProgress.setVisibility(View.GONE);
