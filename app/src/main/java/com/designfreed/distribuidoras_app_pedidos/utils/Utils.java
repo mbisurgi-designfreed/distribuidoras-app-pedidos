@@ -11,4 +11,8 @@ public class Utils {
 
         return currencyFormatter.format(saldo);
     }
+
+    public static String formatKilos(Float kilos) {
+        return kilos.toString() + " kg";
+    }
 }

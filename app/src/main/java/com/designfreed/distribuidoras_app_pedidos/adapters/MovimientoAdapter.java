@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.designfreed.distribuidoras_app_pedidos.R;
 import com.designfreed.distribuidoras_app_pedidos.domain.ItemMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
+import com.designfreed.distribuidoras_app_pedidos.utils.Utils;
 
 import java.util.List;
 
@@ -49,12 +50,8 @@ public class MovimientoAdapter extends ArrayAdapter<Movimiento> {
         }
 
         TextView kilos = (TextView) listItemView.findViewById(R.id.kilos);
-        kilos.setText(formatKilos(kg));
+        kilos.setText(Utils.formatKilos(kg));
 
         return listItemView;
-    }
-
-    private String formatKilos(Float kilos) {
-        return kilos.toString() + " kg";
     }
 }
