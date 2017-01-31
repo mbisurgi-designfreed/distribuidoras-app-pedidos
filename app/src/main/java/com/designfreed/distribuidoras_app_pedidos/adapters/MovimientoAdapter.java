@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.designfreed.distribuidoras_app_pedidos.R;
@@ -42,6 +43,9 @@ public class MovimientoAdapter extends ArrayAdapter<Movimiento> {
 
         TextView estado = (TextView) listItemView.findViewById(R.id.estado);
         estado.setText(movimiento.getEstadoMovimiento().getEstadoMovimientoNombre());
+
+        CheckBox visito = (CheckBox) listItemView.findViewById(R.id.visito);
+        visito.setChecked(movimiento.getVisito());
 
         Float kg = 0f;
         Float pes = 0f;

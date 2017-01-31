@@ -25,6 +25,8 @@ public class MovimientoEntityMovimientoConverter {
             movimientoEntity.setTipoMovimientoEntity(new TipoMovimientoEntityTipoMovimientoConverter().tipoMovimientoToTipoMovimientoEntity(movimiento.getTipoMovimiento()));
             movimientoEntity.setEstadoMovimientoEntity(new EstadoMovimientoEntityEstadoMovimientoConverter().estadoMovimientoToEstadoMovimientoEntity(movimiento.getEstadoMovimiento()));
             movimientoEntity.setHojaRutaEntity(new HojaRutaEntityHojaRutaConverter().hojaRutaToHojaRutaEntity(movimiento.getHojaRuta()));
+            movimientoEntity.setVisito(movimiento.getVisito());
+            movimientoEntity.setVendio(movimiento.getVendio());
             movimientoEntity.setItems(new ItemMovimientoEntityItemMovimientoConverter().itemsMovimientoToItemsMovimientoEntity(movimiento.getItems()));
             movimientoEntity.setSincronizado(movimiento.getSincronizado());
 
@@ -46,6 +48,8 @@ public class MovimientoEntityMovimientoConverter {
             movimiento.setTipoMovimiento(new TipoMovimientoEntityTipoMovimientoConverter().tipoMovimientoEntityToTipoMovimiento(movimientoEntity.getTipoMovimientoEntity()));
             movimiento.setEstadoMovimiento(new EstadoMovimientoEntityEstadoMovimientoConverter().estadoMovimientoEntityToEstadoMovimiento(movimientoEntity.getEstadoMovimientoEntity()));
             movimiento.setHojaRuta(new HojaRutaEntityHojaRutaConverter().hojaRutaEntityToHojaRuta(movimientoEntity.getHojaRutaEntity()));
+            movimiento.setVisito(movimientoEntity.getVisito());
+            movimiento.setVendio(movimientoEntity.getVendio());
             movimiento.setItems(new ItemMovimientoEntityItemMovimientoConverter().itemsMovimientoEntityToItemsMovimiento(movimientoEntity.getItems()));
             movimiento.setSincronizado(movimientoEntity.getSincronizado());
 
