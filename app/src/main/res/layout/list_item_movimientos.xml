@@ -10,12 +10,13 @@
         android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2">
+        android:layout_weight="3">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -27,13 +28,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Matias Bisurgi SRL"
+                android:textStyle="bold"
                 android:textColor="#0067AC"/>
 
             <TextView
                 android:id="@+id/direccion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Olazabal 1853"/>
+                tools:text="Olazabal 1853"
+                android:textStyle="italic"/>
         </LinearLayout>
 
         <RelativeLayout
@@ -51,34 +54,29 @@
                     android:id="@+id/estado"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    tools:text="No entregado"/>
+                    tools:text="No entregado"
+                    android:textStyle="italic"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Visito"
-                    android:textColor="#0067AC"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Visito"
+                        android:textStyle="bold"
+                        android:textColor="#0067AC"/>
+
+                    <CheckBox
+                        android:id="@+id/visito"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"/>
+                </LinearLayout>
+
             </LinearLayout>
-
-            <RelativeLayout
-                android:layout_toRightOf="@+id/estado_pedido"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/truck"
-                    android:layout_centerInParent="true"/>
-
-                <CheckBox
-                    android:id="@+id/visito"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:layout_centerInParent="true"/>
-            </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
 
@@ -99,6 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="1000 kg"
+            android:textStyle="bold"
             android:textColor="#0067AC"/>
 
         <TextView
@@ -111,6 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="$ 12.356"
+            android:textStyle="bold"
             android:textColor="#0067AC"/>
     </LinearLayout>
 </LinearLayout>
