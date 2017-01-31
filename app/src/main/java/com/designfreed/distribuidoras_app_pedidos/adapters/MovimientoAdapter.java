@@ -1,6 +1,7 @@
 package com.designfreed.distribuidoras_app_pedidos.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,11 +36,8 @@ public class MovimientoAdapter extends ArrayAdapter<Movimiento> {
         TextView razonSocial = (TextView) listItemView.findViewById(R.id.razon_social);
         razonSocial.setText(movimiento.getCliente().getRazonSocial());
 
-        TextView calle = (TextView) listItemView.findViewById(R.id.calle);
-        calle.setText(movimiento.getCliente().getCalle());
-
-        TextView altura = (TextView) listItemView.findViewById(R.id.altura);
-        altura.setText(movimiento.getCliente().getAltura());
+        TextView direccion = (TextView) listItemView.findViewById(R.id.direccion);
+        direccion.setText(movimiento.getCliente().getCalle() + " " + movimiento.getCliente().getAltura());
 
         TextView estado = (TextView) listItemView.findViewById(R.id.estado);
         estado.setText(movimiento.getEstadoMovimiento().getEstadoMovimientoNombre());
@@ -55,11 +53,11 @@ public class MovimientoAdapter extends ArrayAdapter<Movimiento> {
             pes = pes + item.getMonto();
         }
 
-        TextView kilos = (TextView) listItemView.findViewById(R.id.kilos);
-        kilos.setText(Utils.formatKilos(kg));
+//        TextView kilos = (TextView) listItemView.findViewById(R.id.kilos);
+//        kilos.setText(Utils.formatKilos(kg));
 
-        TextView pesos = (TextView) listItemView.findViewById(R.id.pesos);
-        pesos.setText(Utils.formatSaldo(pes));
+//        TextView pesos = (TextView) listItemView.findViewById(R.id.pesos);
+//        pesos.setText(Utils.formatSaldo(pes));
 
         return listItemView;
     }
