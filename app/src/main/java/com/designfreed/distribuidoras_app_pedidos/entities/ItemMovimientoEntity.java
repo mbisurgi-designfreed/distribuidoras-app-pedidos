@@ -9,6 +9,7 @@ public class ItemMovimientoEntity extends RealmObject {
     private Long idCrm;
     private EnvaseEntity envaseEntity;
     private Integer cantidad;
+    private Float monto;
 
     public ItemMovimientoEntity() {
     }
@@ -43,5 +44,13 @@ public class ItemMovimientoEntity extends RealmObject {
 
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public Float getMonto() {
+        return monto;
+    }
+
+    public void setMonto(Float monto) {
+        this.monto = monto;
     }
 }

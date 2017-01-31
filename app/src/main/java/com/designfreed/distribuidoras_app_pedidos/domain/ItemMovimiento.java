@@ -6,6 +6,7 @@ public class ItemMovimiento implements Serializable {
     private Long id;
     private Envase envase;
     private Integer cantidad;
+    private Float monto;
 
     public ItemMovimiento() {
     }
@@ -32,5 +33,13 @@ public class ItemMovimiento implements Serializable {
 
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public Float getMonto() {
+        return monto;
+    }
+
+    public void setMonto(Float monto) {
+        this.monto = monto;
     }
 }

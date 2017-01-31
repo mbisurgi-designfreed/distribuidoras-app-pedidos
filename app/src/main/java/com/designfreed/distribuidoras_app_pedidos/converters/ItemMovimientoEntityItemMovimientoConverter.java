@@ -21,6 +21,7 @@ public class ItemMovimientoEntityItemMovimientoConverter {
             itemEntity.setIdCrm(item.getId());
             itemEntity.setEnvaseEntity(new EnvaseEntityEnvaseConverter().envaseToEnvaseEntity(item.getEnvase()));
             itemEntity.setCantidad(item.getCantidad());
+            itemEntity.setMonto(item.getMonto());
 
             itemsEntity.add(itemEntity);
         }
@@ -36,6 +37,7 @@ public class ItemMovimientoEntityItemMovimientoConverter {
             item.setId(itemEntity.getIdCrm());
             item.setEnvase(new EnvaseEntityEnvaseConverter().envaseEntityToEnvase(itemEntity.getEnvaseEntity()));
             item.setCantidad(itemEntity.getCantidad());
+            item.setMonto(itemEntity.getMonto());
 
             items.add(item);
         }
