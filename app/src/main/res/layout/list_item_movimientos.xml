@@ -27,7 +27,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Matias Bisurgi SRL"
-                fontPath="fonts/helvetica_neue_condensed_bold"
                 android:textColor="#0067AC"/>
 
             <TextView
