@@ -53,11 +53,11 @@ public class MovimientoAdapter extends ArrayAdapter<Movimiento> {
             //pes = pes + item.getMonto();
         }
 
-//        TextView kilos = (TextView) listItemView.findViewById(R.id.kilos);
-//        kilos.setText(Utils.formatKilos(kg));
+        TextView kilos = (TextView) listItemView.findViewById(R.id.kilos);
+        kilos.setText(Utils.formatKilos(kg));
 
-//        TextView pesos = (TextView) listItemView.findViewById(R.id.pesos);
-//        pesos.setText(Utils.formatSaldo(pes));
+        TextView pesos = (TextView) listItemView.findViewById(R.id.pesos);
+        pesos.setText(Utils.formatSaldo(pes));
 
         return listItemView;
     }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="16dp">
 
     <LinearLayout
@@ -49,7 +49,7 @@
 
                 <TextView
                     android:id="@+id/estado"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     tools:text="No entregado"/>
 
@@ -86,7 +86,31 @@
         android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="total kg"/>
+
+        <TextView
+            android:id="@+id/kilos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="1000 kg"
+            android:textColor="#0067AC"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="monto total"/>
+
+        <TextView
+            android:id="@+id/pesos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="$ 12.356"
+            android:textColor="#0067AC"/>
     </LinearLayout>
 </LinearLayout>
