@@ -43,14 +43,14 @@ public class MovimientoAdapter extends ArrayAdapter<Movimiento> {
         estado.setText(movimiento.getEstadoMovimiento().getEstadoMovimientoNombre());
 
         CheckBox visito = (CheckBox) listItemView.findViewById(R.id.visito);
-        //visito.setChecked(movimiento.getVisito());
+        visito.setChecked(movimiento.getVisito());
 
         Float kg = 0f;
         Float pes = 0f;
 
         for (ItemMovimiento item: movimiento.getItems()) {
             kg = kg + (item.getEnvase().getKilos() * item.getCantidad());
-            //pes = pes + item.getMonto();
+            pes = pes + item.getMonto();
         }
 
         TextView kilos = (TextView) listItemView.findViewById(R.id.kilos);
