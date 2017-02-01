@@ -1,5 +1,6 @@
 package com.designfreed.distribuidoras_app_pedidos.activities;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,7 +50,11 @@ public class MovimientoActivity extends AppCompatActivity {
         movimientosListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Movimiento movimiento = (Movimiento) parent.getItemAtPosition(position);
 
+                Intent intent = new Intent(getApplicationContext(), MovimientoDetalleActivity.class);
+                intent.putExtra("movimiento", movimiento);
+                startActivity(intent);
             }
         });
 
