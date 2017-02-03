@@ -1,6 +1,8 @@
 package com.designfreed.distribuidoras_app_pedidos.domain;
 
-public class TipoMovimiento {
+import java.io.Serializable;
+
+public class TipoMovimiento implements Serializable {
     private Long id;
     private String tipoMovimientoNombre;
 

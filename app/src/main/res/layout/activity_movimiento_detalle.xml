@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp">
-            
+
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -201,8 +201,100 @@
                         tools:text="olazabal 1834"/>
                 </LinearLayout>
             </RelativeLayout>
-
-
-        </LinearLayout>>
+        </LinearLayout>
     </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:paddingBottom="2dp"
+                android:text="datos de movimiento"
+                android:textColor="#0067AC"
+                android:textStyle="bold"
+                android:background="@drawable/border_bottom"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/img_fecha"
+                        style="@style/ImagerViewMovimientoDetalle"
+                        android:src="@drawable/fecha" />
+
+                    <LinearLayout
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/img_fecha"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="fecha"
+                            android:textColor="#0067AC"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/fecha"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="01/02/2017"/>
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/img_condicion_movimiento"
+                        style="@style/ImagerViewMovimientoDetalle"
+                        android:src="@drawable/condicionventa" />
+
+                    <LinearLayout
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/img_condicion_movimiento"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="condicion de venta"
+                            android:textColor="#0067AC"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/condicion_movimiento"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="cuenta corriente"/>
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
 </LinearLayout>
