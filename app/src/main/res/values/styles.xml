@@ -33,4 +33,12 @@
         <item name="android:colorControlNormal">#5ECBF4</item>
         <item name="android:colorControlActivated">#15ABCE</item>
     </style>
+
+    <style name="ImagerViewMovimientoDetalle">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_marginRight">3dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
 </resources>

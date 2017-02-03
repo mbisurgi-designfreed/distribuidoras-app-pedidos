@@ -23,7 +23,8 @@
         </activity>
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.MovimientoActivity" />
-        <activity android:name=".activities.MovimientoDetalleActivity"></activity>
+        <activity android:name=".activities.MovimientoDetalleActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

@@ -1,13 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_movimiento_detalle"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.designfreed.distribuidoras_app_pedidos.activities.MovimientoDetalleActivity">
 
-</RelativeLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:paddingBottom="2dp"
+            android:text="datos de cliente"
+            android:textColor="#0067AC"
+            android:textStyle="bold"
+            android:background="@drawable/border_bottom"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+            
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/img_codigo"
+                    style="@style/ImagerViewMovimientoDetalle"
+                    android:src="@drawable/codigo" />
+
+                <LinearLayout
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/img_codigo"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="codigo"
+                        android:textColor="#0067AC"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/codigo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="100124"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/img_condicion_cliente"
+                    style="@style/ImagerViewMovimientoDetalle"
+                    android:src="@drawable/condicionventa" />
+
+                <LinearLayout
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/img_condicion_cliente"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="condicion de venta"
+                        android:textColor="#0067AC"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/condicion_cliente"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="cuenta corriente"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/img_razon"
+                    style="@style/ImagerViewMovimientoDetalle"
+                    android:src="@drawable/razon" />
+
+                <LinearLayout
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/img_razon"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="razon social"
+                        android:textColor="#0067AC"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/razon_social"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Maximiliano Bisurgi"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/img_observaciones"
+                    style="@style/ImagerViewMovimientoDetalle"
+                    android:src="@drawable/observaciones" />
+
+                <LinearLayout
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/img_observaciones"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="observaciones"
+                        android:textColor="#0067AC"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/observaciones"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="calle cortada"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/img_direccion"
+                    style="@style/ImagerViewMovimientoDetalle"
+                    android:src="@drawable/direccion" />
+
+                <LinearLayout
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/img_direccion"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="direccion"
+                        android:textColor="#0067AC"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/direccion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="olazabal 1834"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+
+        </LinearLayout>>
+    </LinearLayout>
+</LinearLayout>
