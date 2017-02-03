@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context="com.designfreed.distribuidoras_app_pedidos.activities.MovimientoDetalleActivity">
 
     <LinearLayout
@@ -206,12 +207,12 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <TextView
                 android:layout_width="match_parent"
@@ -292,6 +293,87 @@
                             tools:text="cuenta corriente"/>
                     </LinearLayout>
                 </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:paddingBottom="2dp"
+                    android:text="items del movimiento"
+                    android:textColor="#0067AC"
+                    android:textStyle="bold"
+                    android:background="@drawable/border_bottom"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp">
+
+                    <Spinner
+                        android:id="@+id/producto"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"/>
+
+                    <EditText
+                        android:id="@+id/cantidad"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/border_rounded"
+                        android:layout_gravity="center_vertical"
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:inputType="number"
+                        android:hint="uni"
+                        android:textColorHint="#FFFFFF"/>
+
+                    <EditText
+                        android:id="@+id/precio"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/border_rounded"
+                        android:layout_gravity="center_vertical"
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold"
+                        android:inputType="numberDecimal"
+                        android:hint="$"
+                        android:textColorHint="#FFFFFF"/>
+
+                    <ImageButton
+                        android:id="@+id/agregar"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:scaleType="fitCenter"
+                        android:background="#FFFFFF"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/agregar"/>
+                </LinearLayout>
+
+                <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/list"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:padding="2dp"
+                    android:background="#B7E1F2"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"/>
             </LinearLayout>
         </LinearLayout>
 
