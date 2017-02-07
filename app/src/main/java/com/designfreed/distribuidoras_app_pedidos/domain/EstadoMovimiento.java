@@ -24,4 +24,9 @@ public class EstadoMovimiento implements Serializable {
     public void setEstadoMovimientoNombre(String estadoMovimientoNombre) {
         this.estadoMovimientoNombre = estadoMovimientoNombre;
     }
+
+    @Override
+    public String toString() {
+        return estadoMovimientoNombre;
+    }
 }

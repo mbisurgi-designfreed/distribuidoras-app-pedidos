@@ -96,6 +96,8 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
 
         LoadItems(movimiento);
 
+        cboEstados.setSelection(getIndexEstadoMovimiento(cboEstados, movimiento.getEstadoMovimiento().getId()));
+
         btnAgregar = (ImageButton) findViewById(R.id.agregar);
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,5 +146,17 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
 
             itemMovimientoAdapter.notifyDataSetChanged();
         }
+    }
+
+    private int getIndexEstadoMovimiento(Spinner spinner, Long id) {
+        int index = 0;
+
+        for (int i=0;i<spinner.getCount();i++){
+            if (((EstadoMovimiento)spinner.getItemAtPosition(i)).getId().equals(id)){
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
 }

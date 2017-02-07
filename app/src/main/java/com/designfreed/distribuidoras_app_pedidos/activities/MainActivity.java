@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (!existenEstados()) {
-
+            new LoadEstadosTask().execute();
 
             pbProgress.setVisibility(View.VISIBLE);
         }
