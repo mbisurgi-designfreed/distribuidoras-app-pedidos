@@ -22,6 +22,7 @@ import com.designfreed.distribuidoras_app_pedidos.domain.HojaRuta;
 import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
 import com.designfreed.distribuidoras_app_pedidos.entities.EnvaseEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.HojaRutaEntity;
+import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -205,6 +206,51 @@ public class MainActivity extends AppCompatActivity {
 
                 if (response.getStatusCode() != HttpStatus.OK) {
                     return null;
+                }
+
+                return Arrays.asList(movimientos);
+            } catch (ResourceAccessException connectException) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final List<Movimiento> movimientos) {
+            super.onPostExecute(movimientos);
+
+            if (movimientos != null) {
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.copyToRealmOrUpdate(new MovimientoEntityMovimientoConverter().movimientosToMovimientosEntity(movimientos));
+                    }
+                });
+
+                pbProgress.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private class SyncMovimientosLocalTask extends AsyncTask<Void, Void, List<Movimiento>> {
+        @Override
+        protected List<Movimiento> doInBackground(Void... params) {
+            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/movimiento/add";
+
+            try {
+                RestTemplate restTemplate = new RestTemplate();
+
+                RealmResults<MovimientoEntity> movimientosEntity = realm.where(MovimientoEntity.class).equalTo("sincronizado", false).findAll();
+
+                Movimiento[] movimientos = (Movimiento[]) new MovimientoEntityMovimientoConverter().movimientosEntityToMovimientos(movimientosEntity).toArray();
+
+                ResponseEntity<Movimiento[]> response = restTemplate.postForEntity(url, movimientos, Movimiento[].class);
+
+                if (response.getStatusCode() != HttpStatus.OK) {
+                    return null;
+                }
+
+                for (Movimiento movimiento: movimientos) {
+                    movimiento.setSincronizado(true);
                 }
 
                 return Arrays.asList(movimientos);
