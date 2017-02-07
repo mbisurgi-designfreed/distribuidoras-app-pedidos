@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:paddingBottom="2dp"
-            android:text="datos de cliente"
+            android:text="datos del cliente"
             android:textColor="#0067AC"
             android:textStyle="bold"
             android:background="@drawable/border_bottom"/>
@@ -207,7 +207,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:orientation="vertical"
@@ -219,7 +219,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:paddingBottom="2dp"
-                android:text="datos de movimiento"
+                android:text="datos del movimiento"
                 android:textColor="#0067AC"
                 android:textStyle="bold"
                 android:background="@drawable/border_bottom"/>
@@ -368,12 +368,27 @@
                     android:id="@+id/list"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="100dp"
                     android:layout_margin="5dp"
                     android:padding="2dp"
                     android:background="#B7E1F2"
                     android:divider="@null"
                     android:dividerHeight="0dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:paddingBottom="2dp"
+                    android:text="estado del movimiento"
+                    android:textColor="#0067AC"
+                    android:textStyle="bold"
+                    android:background="@drawable/border_bottom"/>
             </LinearLayout>
         </LinearLayout>
 

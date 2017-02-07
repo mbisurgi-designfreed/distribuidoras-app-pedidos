@@ -84,6 +84,8 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
 
         cboProducto.setAdapter(envaseArrayAdapter);
 
+        LoadItems(movimiento);
+
         btnAgregar = (ImageButton) findViewById(R.id.agregar);
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +117,14 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
 
         for (EnvaseEntity envase: envases) {
             this.envases.add(new EnvaseEntityEnvaseConverter().envaseEntityToEnvase(envase));
+        }
+    }
+
+    private void LoadItems(Movimiento movimiento) {
+        if (movimiento.getItems() != null) {
+            items.addAll(movimiento.getItems());
+
+            itemMovimientoAdapter.notifyDataSetChanged();
         }
     }
 }
