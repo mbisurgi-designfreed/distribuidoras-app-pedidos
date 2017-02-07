@@ -391,13 +391,83 @@
                     android:textStyle="bold"
                     android:background="@drawable/border_bottom"/>
 
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp">
+
+                    <ImageView
+                        android:id="@+id/img_estado"
+                        style="@style/ImagerViewMovimientoDetalle"
+                        android:src="@drawable/estado" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="estado"
+                        android:textColor="#0067AC"
+                        android:textStyle="bold"/>
+
                     <Spinner
                         android:id="@+id/estado"
-                        android:layout_width="300dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp">
+
+                    <ImageView
+                        android:id="@+id/img_visito"
+                        style="@style/ImagerViewMovimientoDetalle"
+                        android:src="@drawable/visito" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="visito"
+                        android:textColor="#0067AC"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp">
+
+                    <ImageView
+                        android:id="@+id/img_motivo"
+                        style="@style/ImagerViewMovimientoDetalle"
+                        android:src="@drawable/motivo" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="motivo"
+                        android:textColor="#0067AC"
+                        android:textStyle="bold"/>
+
+                    <Spinner
+                        android:id="@+id/motivo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"/>
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
 
