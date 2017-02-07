@@ -15,10 +15,13 @@ import android.widget.TextView;
 import com.designfreed.distribuidoras_app_pedidos.R;
 import com.designfreed.distribuidoras_app_pedidos.adapters.ItemMovimientoAdapter;
 import com.designfreed.distribuidoras_app_pedidos.converters.EnvaseEntityEnvaseConverter;
+import com.designfreed.distribuidoras_app_pedidos.converters.EstadoMovimientoEntityEstadoMovimientoConverter;
 import com.designfreed.distribuidoras_app_pedidos.domain.Envase;
+import com.designfreed.distribuidoras_app_pedidos.domain.EstadoMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.domain.ItemMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
 import com.designfreed.distribuidoras_app_pedidos.entities.EnvaseEntity;
+import com.designfreed.distribuidoras_app_pedidos.entities.EstadoMovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.utils.Utils;
 
 import java.util.ArrayList;
@@ -40,9 +43,11 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
     private EditText txtCantidad;
     private EditText txtPrecio;
     private ImageButton btnAgregar;
+    private Spinner cboEstados;
 
     private Movimiento movimiento;
     private List<Envase> envases = new ArrayList<>();
+    private List<EstadoMovimiento> estados = new ArrayList<>();
     private List<ItemMovimiento> items = new ArrayList<>();
 
     private Realm realm;
@@ -55,8 +60,10 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
 
         LoadEnvases();
+        LoadEstados();
 
         ArrayAdapter<Envase> envaseArrayAdapter = new ArrayAdapter<Envase>(this, android.R.layout.simple_dropdown_item_1line, envases);
+        ArrayAdapter<EstadoMovimiento> estadoArrayAdapter = new ArrayAdapter<EstadoMovimiento>(this, android.R.layout.simple_dropdown_item_1line, estados);
 
         movimiento = (Movimiento) getIntent().getSerializableExtra("movimiento");
 
@@ -82,7 +89,10 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         txtCantidad = (EditText) findViewById(R.id.cantidad);
         txtPrecio = (EditText) findViewById(R.id.precio);
 
+        cboEstados = (Spinner) findViewById(R.id.estado);
+
         cboProducto.setAdapter(envaseArrayAdapter);
+        cboEstados.setAdapter(estadoArrayAdapter);
 
         LoadItems(movimiento);
 
@@ -117,6 +127,14 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
 
         for (EnvaseEntity envase: envases) {
             this.envases.add(new EnvaseEntityEnvaseConverter().envaseEntityToEnvase(envase));
+        }
+    }
+
+    private void LoadEstados() {
+        RealmResults<EstadoMovimientoEntity> estados = realm.where(EstadoMovimientoEntity.class).findAll();
+
+        for (EstadoMovimientoEntity estado: estados) {
+            this.estados.add(new EstadoMovimientoEntityEstadoMovimientoConverter().estadoMovimientoEntityToEstadoMovimiento(estado));
         }
     }
 

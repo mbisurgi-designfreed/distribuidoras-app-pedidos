@@ -14,13 +14,16 @@ import android.widget.TextView;
 import com.designfreed.distribuidoras_app_pedidos.R;
 import com.designfreed.distribuidoras_app_pedidos.converters.DateConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.EnvaseEntityEnvaseConverter;
+import com.designfreed.distribuidoras_app_pedidos.converters.EstadoMovimientoEntityEstadoMovimientoConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.HojaRutaEntityHojaRutaConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.MovimientoEntityMovimientoConverter;
 import com.designfreed.distribuidoras_app_pedidos.domain.Chofer;
 import com.designfreed.distribuidoras_app_pedidos.domain.Envase;
+import com.designfreed.distribuidoras_app_pedidos.domain.EstadoMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.domain.HojaRuta;
 import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
 import com.designfreed.distribuidoras_app_pedidos.entities.EnvaseEntity;
+import com.designfreed.distribuidoras_app_pedidos.entities.EstadoMovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.HojaRutaEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
 
@@ -90,6 +93,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (!existenEnvases()) {
             new LoadEnvasesTask().execute();
+
+            pbProgress.setVisibility(View.VISIBLE);
+        }
+
+        if (!existenEstados()) {
+
 
             pbProgress.setVisibility(View.VISIBLE);
         }
@@ -178,6 +187,38 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void execute(Realm realm) {
                     realm.copyToRealmOrUpdate(new EnvaseEntityEnvaseConverter().envasesToEnvasesEntity(envases));
+                }
+            });
+
+            pbProgress.setVisibility(View.GONE);
+        }
+    }
+
+    private class LoadEstadosTask extends AsyncTask<Void, Void, List<EstadoMovimiento>> {
+        @Override
+        protected List<EstadoMovimiento> doInBackground(Void... params) {
+            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/estadoMovimiento/list";
+
+            try {
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+                EstadoMovimiento[] estados = restTemplate.getForObject(url, EstadoMovimiento[].class);
+
+                return Arrays.asList(estados);
+            } catch (ResourceAccessException connectException) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final List<EstadoMovimiento> estados) {
+            super.onPostExecute(estados);
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.copyToRealmOrUpdate(new EstadoMovimientoEntityEstadoMovimientoConverter().estadoMovimientoToEstadoMovimientoEntity(estados));
                 }
             });
 
@@ -296,6 +337,16 @@ public class MainActivity extends AppCompatActivity {
         RealmResults<EnvaseEntity> envases = realm.where(EnvaseEntity.class).findAll();
 
         if (envases.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private Boolean existenEstados() {
+        RealmResults<EstadoMovimientoEntity> estados = realm.where(EstadoMovimientoEntity.class).findAll();
+
+        if (estados.size() == 6) {
             return true;
         } else {
             return false;
