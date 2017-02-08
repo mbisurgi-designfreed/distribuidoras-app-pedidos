@@ -15,6 +15,7 @@ public class Movimiento implements Serializable {
     private HojaRuta hojaRuta;
     private Boolean visito;
     private Boolean vendio;
+    private Motivo motivo;
     private List<ItemMovimiento> items = new ArrayList<>();
     private Boolean sincronizado;
 
@@ -91,6 +92,14 @@ public class Movimiento implements Serializable {
 
     public void setVendio(Boolean vendio) {
         this.vendio = vendio;
+    }
+
+    public Motivo getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(Motivo motivo) {
+        this.motivo = motivo;
     }
 
     public List<ItemMovimiento> getItems() {

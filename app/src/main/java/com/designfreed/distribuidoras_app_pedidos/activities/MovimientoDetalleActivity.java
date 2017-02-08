@@ -107,6 +107,10 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
 
         cboEstados.setSelection(getIndexEstadoMovimiento(cboEstados, movimiento.getEstadoMovimiento().getId()));
 
+        if (movimiento.getMotivo() != null) {
+            cboMotivos.setSelection(getIndexMotivo(cboMotivos, movimiento.getMotivo().getId()));
+        }
+
         btnAgregar = (ImageButton) findViewById(R.id.agregar);
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +155,8 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
 
     private void LoadMotivos() {
         RealmResults<MotivoEntity> motivos = realm.where(MotivoEntity.class).findAll();
+
+        this.motivos.add(new Motivo());
 
         for (MotivoEntity motivo: motivos) {
             this.motivos.add(new MotivoEntityMotivoConverter().motivoEntityToMotivo(motivo));

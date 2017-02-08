@@ -18,6 +18,7 @@ public class MovimientoEntity extends RealmObject {
     private HojaRutaEntity hojaRutaEntity;
     private Boolean visito;
     private Boolean vendio;
+    private MotivoEntity motivoEntity;
     private RealmList<ItemMovimientoEntity> items;
     private Boolean sincronizado;
 
@@ -102,6 +103,14 @@ public class MovimientoEntity extends RealmObject {
 
     public void setVendio(Boolean vendio) {
         this.vendio = vendio;
+    }
+
+    public MotivoEntity getMotivoEntity() {
+        return motivoEntity;
+    }
+
+    public void setMotivoEntity(MotivoEntity motivoEntity) {
+        this.motivoEntity = motivoEntity;
     }
 
     public RealmList<ItemMovimientoEntity> getItems() {
