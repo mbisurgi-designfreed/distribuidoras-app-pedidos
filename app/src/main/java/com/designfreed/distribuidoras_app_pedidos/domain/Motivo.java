@@ -22,4 +22,9 @@ public class Motivo {
     public void setMotivoNombre(String motivoNombre) {
         this.motivoNombre = motivoNombre;
     }
+
+    @Override
+    public String toString() {
+        return motivoNombre;
+    }
 }

@@ -16,12 +16,15 @@ import com.designfreed.distribuidoras_app_pedidos.R;
 import com.designfreed.distribuidoras_app_pedidos.adapters.ItemMovimientoAdapter;
 import com.designfreed.distribuidoras_app_pedidos.converters.EnvaseEntityEnvaseConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.EstadoMovimientoEntityEstadoMovimientoConverter;
+import com.designfreed.distribuidoras_app_pedidos.converters.MotivoEntityMotivoConverter;
 import com.designfreed.distribuidoras_app_pedidos.domain.Envase;
 import com.designfreed.distribuidoras_app_pedidos.domain.EstadoMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.domain.ItemMovimiento;
+import com.designfreed.distribuidoras_app_pedidos.domain.Motivo;
 import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
 import com.designfreed.distribuidoras_app_pedidos.entities.EnvaseEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.EstadoMovimientoEntity;
+import com.designfreed.distribuidoras_app_pedidos.entities.MotivoEntity;
 import com.designfreed.distribuidoras_app_pedidos.utils.Utils;
 
 import java.util.ArrayList;
@@ -44,10 +47,12 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
     private EditText txtPrecio;
     private ImageButton btnAgregar;
     private Spinner cboEstados;
+    private Spinner cboMotivos;
 
     private Movimiento movimiento;
     private List<Envase> envases = new ArrayList<>();
     private List<EstadoMovimiento> estados = new ArrayList<>();
+    private List<Motivo> motivos = new ArrayList<>();
     private List<ItemMovimiento> items = new ArrayList<>();
 
     private Realm realm;
@@ -61,9 +66,11 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
 
         LoadEnvases();
         LoadEstados();
+        LoadMotivos();
 
         ArrayAdapter<Envase> envaseArrayAdapter = new ArrayAdapter<Envase>(this, android.R.layout.simple_dropdown_item_1line, envases);
         ArrayAdapter<EstadoMovimiento> estadoArrayAdapter = new ArrayAdapter<EstadoMovimiento>(this, android.R.layout.simple_dropdown_item_1line, estados);
+        ArrayAdapter<Motivo> motivoArrayAdapter = new ArrayAdapter<Motivo>(this, android.R.layout.simple_dropdown_item_1line, motivos);
 
         movimiento = (Movimiento) getIntent().getSerializableExtra("movimiento");
 
@@ -90,9 +97,11 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         txtPrecio = (EditText) findViewById(R.id.precio);
 
         cboEstados = (Spinner) findViewById(R.id.estado);
+        cboMotivos = (Spinner) findViewById(R.id.motivo);
 
         cboProducto.setAdapter(envaseArrayAdapter);
         cboEstados.setAdapter(estadoArrayAdapter);
+        cboMotivos.setAdapter(motivoArrayAdapter);
 
         LoadItems(movimiento);
 
@@ -140,6 +149,14 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         }
     }
 
+    private void LoadMotivos() {
+        RealmResults<MotivoEntity> motivos = realm.where(MotivoEntity.class).findAll();
+
+        for (MotivoEntity motivo: motivos) {
+            this.motivos.add(new MotivoEntityMotivoConverter().motivoEntityToMotivo(motivo));
+        }
+    }
+
     private void LoadItems(Movimiento movimiento) {
         if (movimiento.getItems() != null) {
             items.addAll(movimiento.getItems());
@@ -157,6 +174,13 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
                 break;
             }
         }
+
+        return index;
+    }
+
+    private int getIndexMotivo(Spinner spinner, Long id) {
+        int index = 0;
+
         return index;
     }
 }

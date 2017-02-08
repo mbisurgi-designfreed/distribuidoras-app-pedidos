@@ -11,6 +11,14 @@ public class MotivoEntityMotivoConverter {
 
     }
 
+    public Motivo motivoEntityToMotivo(MotivoEntity motivoEntity) {
+        Motivo motivo = new Motivo();
+        motivo.setId(motivoEntity.getIdCrm());
+        motivo.setMotivoNombre(motivoEntity.getNombreMotivo());
+
+        return motivo;
+    }
+
     public List<MotivoEntity> motivosToMotivosEntity(List<Motivo> motivos) {
         List<MotivoEntity> motivosEntity = new ArrayList<>();
 
