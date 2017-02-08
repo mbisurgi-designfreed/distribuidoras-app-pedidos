@@ -16,15 +16,18 @@ import com.designfreed.distribuidoras_app_pedidos.converters.DateConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.EnvaseEntityEnvaseConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.EstadoMovimientoEntityEstadoMovimientoConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.HojaRutaEntityHojaRutaConverter;
+import com.designfreed.distribuidoras_app_pedidos.converters.MotivoEntityMotivoConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.MovimientoEntityMovimientoConverter;
 import com.designfreed.distribuidoras_app_pedidos.domain.Chofer;
 import com.designfreed.distribuidoras_app_pedidos.domain.Envase;
 import com.designfreed.distribuidoras_app_pedidos.domain.EstadoMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.domain.HojaRuta;
+import com.designfreed.distribuidoras_app_pedidos.domain.Motivo;
 import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
 import com.designfreed.distribuidoras_app_pedidos.entities.EnvaseEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.EstadoMovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.HojaRutaEntity;
+import com.designfreed.distribuidoras_app_pedidos.entities.MotivoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
 
 import org.springframework.http.HttpStatus;
@@ -99,6 +102,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (!existenEstados()) {
             new LoadEstadosTask().execute();
+
+            pbProgress.setVisibility(View.VISIBLE);
+        }
+
+        if (!existenMotivos()) {
+            new LoadMotivosTask().execute();
 
             pbProgress.setVisibility(View.VISIBLE);
         }
@@ -219,6 +228,38 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void execute(Realm realm) {
                     realm.copyToRealmOrUpdate(new EstadoMovimientoEntityEstadoMovimientoConverter().estadoMovimientoToEstadoMovimientoEntity(estados));
+                }
+            });
+
+            pbProgress.setVisibility(View.GONE);
+        }
+    }
+
+    private class LoadMotivosTask extends AsyncTask<Void, Void, List<Motivo>> {
+        @Override
+        protected List<Motivo> doInBackground(Void... params) {
+            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/motivo/list";
+
+            try {
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+                Motivo[] motivos = restTemplate.getForObject(url, Motivo[].class);
+
+                return Arrays.asList(motivos);
+            } catch (ResourceAccessException connectException) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final List<Motivo> motivos) {
+            super.onPostExecute(motivos);
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.copyToRealmOrUpdate(new MotivoEntityMotivoConverter().motivosToMotivosEntity(motivos));
                 }
             });
 
@@ -347,6 +388,16 @@ public class MainActivity extends AppCompatActivity {
         RealmResults<EstadoMovimientoEntity> estados = realm.where(EstadoMovimientoEntity.class).findAll();
 
         if (estados.size() == 6) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private Boolean existenMotivos() {
+        RealmResults<MotivoEntity> motivos = realm.where(MotivoEntity.class).findAll();
+
+        if (motivos.size() > 0) {
             return true;
         } else {
             return false;
