@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -48,6 +49,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
     private ImageButton btnAgregar;
     private Spinner cboEstados;
     private Spinner cboMotivos;
+    private CheckBox cbVisito;
 
     private Movimiento movimiento;
     private List<Envase> envases = new ArrayList<>();
@@ -103,9 +105,13 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         cboEstados.setAdapter(estadoArrayAdapter);
         cboMotivos.setAdapter(motivoArrayAdapter);
 
+        cbVisito = (CheckBox) findViewById(R.id.visito);
+
         LoadItems(movimiento);
 
         cboEstados.setSelection(getIndexEstadoMovimiento(cboEstados, movimiento.getEstadoMovimiento().getId()));
+
+        cbVisito.setChecked(movimiento.getVisito());
 
         if (movimiento.getMotivo() != null) {
             cboMotivos.setSelection(getIndexMotivo(cboMotivos, movimiento.getMotivo().getId()));
@@ -186,6 +192,13 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
 
     private int getIndexMotivo(Spinner spinner, Long id) {
         int index = 0;
+
+        for (int i=0;i<spinner.getCount();i++){
+            if (((Motivo)spinner.getItemAtPosition(i)).getId() != null && ((Motivo)spinner.getItemAtPosition(i)).getId().equals(id)){
+                index = i;
+                break;
+            }
+        }
 
         return index;
     }
