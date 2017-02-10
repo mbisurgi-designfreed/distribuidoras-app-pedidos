@@ -154,7 +154,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 movimiento.setEstadoMovimiento((EstadoMovimiento) cboEstados.getSelectedItem());
-                movimiento.setVisito(cbVisito.isSelected());
+                movimiento.setVisito(cbVisito.isChecked());
 
                 if (((Motivo)cboMotivos.getSelectedItem()).getId() != null) {
                     movimiento.setMotivo((Motivo) cboMotivos.getSelectedItem());
