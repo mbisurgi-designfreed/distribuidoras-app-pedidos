@@ -127,6 +127,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu:
                 new SyncMovimientosRemotoTask().execute();
 
+                RealmResults<MovimientoEntity> movimientosEntity = realm.where(MovimientoEntity.class).equalTo("sincronizado", false).findAll();
+
+                new SyncMovimientosLocalTask().execute(new MovimientoEntityMovimientoConverter().movimientosEntityToMovimientos(movimientosEntity));
+
                 pbProgress.setVisibility(View.VISIBLE);
 
                 return true;
@@ -315,26 +319,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class SyncMovimientosLocalTask extends AsyncTask<Void, Void, List<Movimiento>> {
+    private class SyncMovimientosLocalTask extends AsyncTask<List<Movimiento>, Void, List<Movimiento>> {
         @Override
-        protected List<Movimiento> doInBackground(Void... params) {
+        protected List<Movimiento> doInBackground(List<Movimiento>... params) {
             String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/movimiento/add";
 
             try {
                 RestTemplate restTemplate = new RestTemplate();
 
-                RealmResults<MovimientoEntity> movimientosEntity = realm.where(MovimientoEntity.class).equalTo("sincronizado", false).findAll();
+                Movimiento[] movimientos = new Movimiento[params[0].size()];
+                movimientos = params[0].toArray(movimientos);
 
-                Movimiento[] movimientos = (Movimiento[]) new MovimientoEntityMovimientoConverter().movimientosEntityToMovimientos(movimientosEntity).toArray();
+                for (Movimiento movimiento: movimientos) {
+                    movimiento.setSincronizado(true);
+                }
 
                 ResponseEntity<Movimiento[]> response = restTemplate.postForEntity(url, movimientos, Movimiento[].class);
 
                 if (response.getStatusCode() != HttpStatus.OK) {
                     return null;
-                }
-
-                for (Movimiento movimiento: movimientos) {
-                    movimiento.setSincronizado(true);
                 }
 
                 return Arrays.asList(movimientos);
