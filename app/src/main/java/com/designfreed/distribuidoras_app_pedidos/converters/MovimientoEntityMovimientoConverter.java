@@ -12,6 +12,27 @@ public class MovimientoEntityMovimientoConverter {
     public MovimientoEntityMovimientoConverter() {
     }
 
+    public MovimientoEntity movimientoToMovimientoEntity(Movimiento movimiento) {
+        MovimientoEntity movimientoEntity = new MovimientoEntity();
+        movimientoEntity.setId(movimiento.getId());
+        movimientoEntity.setIdCrm(movimiento.getId());
+        movimientoEntity.setFecha(movimiento.getFecha());
+        movimientoEntity.setClienteEntity(new ClienteEntityClienteConverter().clienteToClienteEntity(movimiento.getCliente()));
+        movimientoEntity.setCondicionVentaEntity(new CondicionVentaEntityCondicionVentaConverter().condicionVentaToCondicionVentaEntity(movimiento.getCondicionVenta()));
+        movimientoEntity.setTipoMovimientoEntity(new TipoMovimientoEntityTipoMovimientoConverter().tipoMovimientoToTipoMovimientoEntity(movimiento.getTipoMovimiento()));
+        movimientoEntity.setEstadoMovimientoEntity(new EstadoMovimientoEntityEstadoMovimientoConverter().estadoMovimientoToEstadoMovimientoEntity(movimiento.getEstadoMovimiento()));
+        movimientoEntity.setHojaRutaEntity(new HojaRutaEntityHojaRutaConverter().hojaRutaToHojaRutaEntity(movimiento.getHojaRuta()));
+        movimientoEntity.setVisito(movimiento.getVisito());
+        movimientoEntity.setVendio(movimiento.getVendio());
+        if (movimiento.getMotivo() != null) {
+            movimientoEntity.setMotivoEntity(new MotivoEntityMotivoConverter().motivoToMotivoEntity(movimiento.getMotivo()));
+        }
+        movimientoEntity.setItems(new ItemMovimientoEntityItemMovimientoConverter().itemsMovimientoToItemsMovimientoEntity(movimiento.getItems()));
+        movimientoEntity.setSincronizado(movimiento.getSincronizado());
+
+        return movimientoEntity;
+    }
+
     public List<MovimientoEntity> movimientosToMovimientosEntity(List<Movimiento> movimientos) {
         List<MovimientoEntity> movimientosEntity = new ArrayList<>();
 

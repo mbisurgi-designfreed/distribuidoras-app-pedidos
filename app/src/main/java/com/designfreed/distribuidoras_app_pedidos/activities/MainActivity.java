@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MovimientoActivity.class);
+                intent.putExtra("chofer", activeChofer);
                 intent.putExtra("tipo", 1L);
                 startActivity(intent);
             }
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MovimientoActivity.class);
+                intent.putExtra("chofer", activeChofer);
                 intent.putExtra("tipo", 2L);
                 startActivity(intent);
             }

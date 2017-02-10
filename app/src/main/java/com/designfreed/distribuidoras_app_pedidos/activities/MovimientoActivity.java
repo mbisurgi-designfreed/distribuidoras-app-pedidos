@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.designfreed.distribuidoras_app_pedidos.R;
 import com.designfreed.distribuidoras_app_pedidos.adapters.MovimientoAdapter;
 import com.designfreed.distribuidoras_app_pedidos.converters.MovimientoEntityMovimientoConverter;
+import com.designfreed.distribuidoras_app_pedidos.domain.Chofer;
 import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
 import com.designfreed.distribuidoras_app_pedidos.domain.TipoMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
@@ -28,6 +29,7 @@ public class MovimientoActivity extends AppCompatActivity {
     private ListView movimientosListView;
     private ProgressBar progressBar;
 
+    private Chofer activeChofer;
     private Long tipoMovimientoId;
     private MovimientoAdapter adapter;
     private List<Movimiento> activeMovimientos;
@@ -37,6 +39,7 @@ public class MovimientoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movimiento);
 
+        activeChofer = (Chofer) getIntent().getSerializableExtra("chofer");
         tipoMovimientoId = (Long) getIntent().getSerializableExtra("tipo");
 
         emptyView = (TextView) findViewById(R.id.empty);
@@ -53,6 +56,7 @@ public class MovimientoActivity extends AppCompatActivity {
                 Movimiento movimiento = (Movimiento) parent.getItemAtPosition(position);
 
                 Intent intent = new Intent(getApplicationContext(), MovimientoDetalleActivity.class);
+                intent.putExtra("chofer", activeChofer);
                 intent.putExtra("movimiento", movimiento);
                 startActivity(intent);
             }

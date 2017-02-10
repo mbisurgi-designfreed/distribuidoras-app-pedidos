@@ -1,5 +1,6 @@
 package com.designfreed.distribuidoras_app_pedidos.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,8 @@ import com.designfreed.distribuidoras_app_pedidos.adapters.ItemMovimientoAdapter
 import com.designfreed.distribuidoras_app_pedidos.converters.EnvaseEntityEnvaseConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.EstadoMovimientoEntityEstadoMovimientoConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.MotivoEntityMotivoConverter;
+import com.designfreed.distribuidoras_app_pedidos.converters.MovimientoEntityMovimientoConverter;
+import com.designfreed.distribuidoras_app_pedidos.domain.Chofer;
 import com.designfreed.distribuidoras_app_pedidos.domain.Envase;
 import com.designfreed.distribuidoras_app_pedidos.domain.EstadoMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.domain.ItemMovimiento;
@@ -26,6 +29,7 @@ import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
 import com.designfreed.distribuidoras_app_pedidos.entities.EnvaseEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.EstadoMovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MotivoEntity;
+import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.utils.Utils;
 
 import java.util.ArrayList;
@@ -50,7 +54,9 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
     private Spinner cboEstados;
     private Spinner cboMotivos;
     private CheckBox cbVisito;
+    private ImageButton btnGrabar;
 
+    private Chofer activeChofer;
     private Movimiento movimiento;
     private List<Envase> envases = new ArrayList<>();
     private List<EstadoMovimiento> estados = new ArrayList<>();
@@ -74,6 +80,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         ArrayAdapter<EstadoMovimiento> estadoArrayAdapter = new ArrayAdapter<EstadoMovimiento>(this, android.R.layout.simple_dropdown_item_1line, estados);
         ArrayAdapter<Motivo> motivoArrayAdapter = new ArrayAdapter<Motivo>(this, android.R.layout.simple_dropdown_item_1line, motivos);
 
+        activeChofer = (Chofer) getIntent().getSerializableExtra("chofer");
         movimiento = (Movimiento) getIntent().getSerializableExtra("movimiento");
 
         txtCodigo = (TextView) findViewById(R.id.codigo);
@@ -139,6 +146,37 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
                 cboProducto.setSelection(0);
                 txtCantidad.setText("");
                 txtPrecio.setText("");
+            }
+        });
+
+        btnGrabar = (ImageButton) findViewById(R.id.grabar);
+        btnGrabar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                movimiento.setEstadoMovimiento((EstadoMovimiento) cboEstados.getSelectedItem());
+                movimiento.setVisito(cbVisito.isSelected());
+
+                if (((Motivo)cboMotivos.getSelectedItem()).getId() != null) {
+                    movimiento.setMotivo((Motivo) cboMotivos.getSelectedItem());
+                } else {
+                    movimiento.setMotivo(null);
+                }
+
+                movimiento.setSincronizado(false);
+
+                final MovimientoEntity movimientoEntity = new MovimientoEntityMovimientoConverter().movimientoToMovimientoEntity(movimiento);
+
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.copyToRealmOrUpdate(movimientoEntity);
+                    }
+                });
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("chofer", activeChofer);
+
+                startActivity(intent);
             }
         });
     }
