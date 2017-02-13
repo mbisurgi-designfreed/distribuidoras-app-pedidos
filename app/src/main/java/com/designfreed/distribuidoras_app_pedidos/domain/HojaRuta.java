@@ -9,6 +9,7 @@ public class HojaRuta implements Serializable {
     private Chofer chofer;
     private Boolean estado;
     private Boolean controlStock;
+    private Boolean cierreMobile;
 
     public HojaRuta() {
     }
@@ -51,6 +52,14 @@ public class HojaRuta implements Serializable {
 
     public void setControlStock(Boolean controlStock) {
         this.controlStock = controlStock;
+    }
+
+    public Boolean getCierreMobile() {
+        return cierreMobile;
+    }
+
+    public void setCierreMobile(Boolean cierreMobile) {
+        this.cierreMobile = cierreMobile;
     }
 
     @Override

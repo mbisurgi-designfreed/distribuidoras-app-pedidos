@@ -13,6 +13,7 @@ public class HojaRutaEntity extends RealmObject {
     private ChoferEntity choferEntity;
     private Boolean estado;
     private Boolean controlStock;
+    private Boolean cierreMobile;
 
     public HojaRutaEntity() {
     }
@@ -63,6 +64,14 @@ public class HojaRutaEntity extends RealmObject {
 
     public void setControlStock(Boolean controlStock) {
         this.controlStock = controlStock;
+    }
+
+    public Boolean getCierreMobile() {
+        return cierreMobile;
+    }
+
+    public void setCierreMobile(Boolean cierreMobile) {
+        this.cierreMobile = cierreMobile;
     }
 
     @Override

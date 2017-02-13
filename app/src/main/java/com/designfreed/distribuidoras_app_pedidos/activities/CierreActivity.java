@@ -39,7 +39,7 @@ public class CierreActivity extends AppCompatActivity {
         btnCerrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                new CerrarHojaRutaTask().execute(activeHojaRuta);
             }
         });
     }
@@ -53,6 +53,8 @@ public class CierreActivity extends AppCompatActivity {
                 RestTemplate restTemplate = new RestTemplate();
 
                 HojaRuta hojaRuta = params[0];
+
+                hojaRuta.setCierreMobile(true);
 
                 ResponseEntity<HojaRuta> response = restTemplate.postForEntity(url, hojaRuta, HojaRuta.class);
 

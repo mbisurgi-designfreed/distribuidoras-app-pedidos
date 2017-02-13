@@ -15,6 +15,7 @@ public class HojaRutaEntityHojaRutaConverter {
         hojaRutaEntity.setChoferEntity(new ChoferEntityChoferConverter().choferToChoferEntity(hojaRuta.getChofer()));
         hojaRutaEntity.setEstado(hojaRuta.getEstado());
         hojaRutaEntity.setControlStock(hojaRuta.getControlStock());
+        hojaRutaEntity.setCierreMobile(hojaRuta.getCierreMobile());
 
         return hojaRutaEntity;
     }
@@ -26,6 +27,7 @@ public class HojaRutaEntityHojaRutaConverter {
         hojaRuta.setChofer(new ChoferEntityChoferConverter().choferEntityToChofer(hojaRutaEntity.getChoferEntity()));
         hojaRuta.setEstado(hojaRutaEntity.getEstado());
         hojaRuta.setControlStock(hojaRutaEntity.getControlStock());
+        hojaRuta.setCierreMobile(hojaRutaEntity.getCierreMobile());
 
         return hojaRuta;
     }
