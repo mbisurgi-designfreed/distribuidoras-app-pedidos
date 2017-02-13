@@ -84,10 +84,12 @@ public class CierreActivity extends AppCompatActivity {
                     }
                 });
 
-                Toast.makeText(getApplicationContext(), "Hoja de ruta cerrada exitosamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Cierre satisfactorio", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(), "Cierre fallido", Toast.LENGTH_SHORT).show();
             }
         }
     }
