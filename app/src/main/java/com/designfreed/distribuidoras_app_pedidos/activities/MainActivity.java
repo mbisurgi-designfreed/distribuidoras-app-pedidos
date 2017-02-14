@@ -16,17 +16,20 @@ import com.designfreed.distribuidoras_app_pedidos.converters.DateConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.EnvaseEntityEnvaseConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.EstadoMovimientoEntityEstadoMovimientoConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.HojaRutaEntityHojaRutaConverter;
+import com.designfreed.distribuidoras_app_pedidos.converters.ItemMovimientoEntityItemMovimientoConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.MotivoEntityMotivoConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.MovimientoEntityMovimientoConverter;
 import com.designfreed.distribuidoras_app_pedidos.domain.Chofer;
 import com.designfreed.distribuidoras_app_pedidos.domain.Envase;
 import com.designfreed.distribuidoras_app_pedidos.domain.EstadoMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.domain.HojaRuta;
+import com.designfreed.distribuidoras_app_pedidos.domain.ItemMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.domain.Motivo;
 import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
 import com.designfreed.distribuidoras_app_pedidos.entities.EnvaseEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.EstadoMovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.HojaRutaEntity;
+import com.designfreed.distribuidoras_app_pedidos.entities.ItemMovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MotivoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
 
@@ -36,11 +39,13 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
@@ -318,10 +323,58 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(movimientos);
 
             if (movimientos != null) {
+                Number primaryKeyMovimiento = realm.where(MovimientoEntity.class).max("id");
+                Number primaryKeyItem = realm.where(ItemMovimientoEntity.class).max("id");
+
+                Long idMovimiento;
+                Long idItem;
+
+                if (primaryKeyMovimiento == null) {
+                    idMovimiento = 1L;
+                } else {
+                    idMovimiento = primaryKeyMovimiento.longValue() + 1;
+                }
+
+                if (primaryKeyItem == null) {
+                    idItem = 1L;
+                } else {
+                    idItem = primaryKeyItem.longValue() + 1;
+                }
+
+                final List<MovimientoEntity> movimientosEntity = new ArrayList<>();
+
+                for (Movimiento movimiento: movimientos) {
+                    MovimientoEntity movimientoEntity = realm.where(MovimientoEntity.class).equalTo("idCrm", movimiento.getId()).findFirst();
+
+                    if (movimientoEntity == null) {
+                        movimientoEntity = new MovimientoEntityMovimientoConverter().movimientoToMovimientoEntity2(movimiento);
+                        movimientoEntity.setId(idMovimiento);
+                        idMovimiento++;
+
+                        RealmList<ItemMovimientoEntity> itemsMovimientoEntity = new RealmList<>();
+
+                        for (ItemMovimiento item: movimiento.getItems()) {
+                            ItemMovimientoEntity itemMovimientoEntity = realm.where(ItemMovimientoEntity.class).equalTo("idCrm", item.getId()).findFirst();
+
+                            if (itemMovimientoEntity == null) {
+                                itemMovimientoEntity = new ItemMovimientoEntityItemMovimientoConverter().itemMovimientoToItemMovimientoEntity(item);
+                                itemMovimientoEntity.setId(idItem);
+                                idItem++;
+                            }
+
+                            itemsMovimientoEntity.add(itemMovimientoEntity);
+                        }
+
+                        movimientoEntity.setItems(itemsMovimientoEntity);
+                    }
+
+                    movimientosEntity.add(movimientoEntity);
+                }
+
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        realm.copyToRealmOrUpdate(new MovimientoEntityMovimientoConverter().movimientosToMovimientosEntity(movimientos));
+                        realm.copyToRealmOrUpdate(movimientosEntity);
                     }
                 });
 

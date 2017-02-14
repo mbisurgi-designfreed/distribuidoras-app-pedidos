@@ -12,12 +12,38 @@ public class ItemMovimientoEntityItemMovimientoConverter {
     public ItemMovimientoEntityItemMovimientoConverter() {
     }
 
+    public ItemMovimientoEntity itemMovimientoToItemMovimientoEntity(ItemMovimiento item) {
+        ItemMovimientoEntity itemEntity = new ItemMovimientoEntity();
+        itemEntity.setIdCrm(item.getId());
+        itemEntity.setEnvaseEntity(new EnvaseEntityEnvaseConverter().envaseToEnvaseEntity(item.getEnvase()));
+        itemEntity.setCantidad(item.getCantidad());
+        itemEntity.setMonto(item.getMonto());
+
+        return itemEntity;
+    }
+
     public RealmList<ItemMovimientoEntity> itemsMovimientoToItemsMovimientoEntity(List<ItemMovimiento> items) {
         RealmList<ItemMovimientoEntity> itemsEntity = new RealmList<>();
 
         for (ItemMovimiento item: items) {
             ItemMovimientoEntity itemEntity = new ItemMovimientoEntity();
             itemEntity.setId(item.getId());
+            itemEntity.setIdCrm(item.getId());
+            itemEntity.setEnvaseEntity(new EnvaseEntityEnvaseConverter().envaseToEnvaseEntity(item.getEnvase()));
+            itemEntity.setCantidad(item.getCantidad());
+            itemEntity.setMonto(item.getMonto());
+
+            itemsEntity.add(itemEntity);
+        }
+
+        return itemsEntity;
+    }
+
+    public RealmList<ItemMovimientoEntity> itemsMovimientoToItemsMovimientoEntity2(List<ItemMovimiento> items) {
+        RealmList<ItemMovimientoEntity> itemsEntity = new RealmList<>();
+
+        for (ItemMovimiento item: items) {
+            ItemMovimientoEntity itemEntity = new ItemMovimientoEntity();
             itemEntity.setIdCrm(item.getId());
             itemEntity.setEnvaseEntity(new EnvaseEntityEnvaseConverter().envaseToEnvaseEntity(item.getEnvase()));
             itemEntity.setCantidad(item.getCantidad());
