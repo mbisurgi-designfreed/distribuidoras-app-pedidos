@@ -33,6 +33,8 @@ public class CierreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cierre);
 
+        realm = Realm.getDefaultInstance();
+
         activeHojaRuta = (HojaRuta) getIntent().getSerializableExtra("hoja");
 
         btnCerrar = (Button) findViewById(R.id.cerrar);
