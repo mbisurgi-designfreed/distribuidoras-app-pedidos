@@ -73,13 +73,13 @@ public class CierreActivity extends AppCompatActivity {
             super.onPostExecute(aBoolean);
 
             if (aBoolean) {
-                final HojaRutaEntity hojaRuta = realm.where(HojaRutaEntity.class).equalTo("id", activeHojaRuta.getId()).findFirst();
+                final RealmResults<HojaRutaEntity> hojas = realm.where(HojaRutaEntity.class).findAll();
                 final RealmResults<MovimientoEntity> movimientos = realm.where(MovimientoEntity.class).findAll();
 
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        hojaRuta.deleteFromRealm();
+                        hojas.deleteAllFromRealm();
                         movimientos.deleteAllFromRealm();
                     }
                 });
