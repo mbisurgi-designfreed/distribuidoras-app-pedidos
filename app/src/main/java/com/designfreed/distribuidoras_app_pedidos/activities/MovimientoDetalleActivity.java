@@ -155,27 +155,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         btnGrabar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Number primaryKeyItem = realm.where(ItemMovimientoEntity.class).max("id");
-                Long idItem;
-
-                if (primaryKeyItem == null) {
-                    idItem = 1L;
-                } else {
-                    idItem = primaryKeyItem.longValue() + 1;
-                }
-
-                final RealmList<ItemMovimientoEntity> itemsModificados = new RealmList<>();
-
-                for (ItemMovimientoEntity item: items) {
-                    if (item.getId() == null) {
-                        item.setId(idItem);
-                        idItem++;
-                    }
-
-                    itemsModificados.add(item);
-                }
                 //final MovimientoEntity movimientoEntity = movimiento;
-
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
@@ -190,6 +170,32 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
 //                        }
 
                         //movimiento.setSincronizado(false);
+
+                        Number primaryKeyItem = realm.where(ItemMovimientoEntity.class).max("id");
+                        Long idItem;
+
+                        if (primaryKeyItem == null) {
+                            idItem = 1L;
+                        } else {
+                            idItem = primaryKeyItem.longValue() + 1;
+                        }
+
+                        final RealmList<ItemMovimientoEntity> itemsModificados = new RealmList<>();
+
+                        for (ItemMovimientoEntity item: items) {
+                            ItemMovimientoEntity itemMovimientoEntity = item;
+
+                            if (item.getId() == null) {
+                                itemMovimientoEntity = realm.createObject(ItemMovimientoEntity.class, idItem);
+                                itemMovimientoEntity.setIdCrm(item.getIdCrm());
+                                itemMovimientoEntity.setEnvaseEntity(item.getEnvaseEntity());
+                                itemMovimientoEntity.setCantidad(item.getCantidad());
+                                itemMovimientoEntity.setMonto(item.getMonto());
+                                idItem++;
+                            }
+
+                            itemsModificados.add(itemMovimientoEntity);
+                        }
 
                         MovimientoEntity movimientoEntity = realm.where(MovimientoEntity.class).equalTo("id", movimiento.getId()).findFirst();
                         movimientoEntity.setEstadoMovimientoEntity((EstadoMovimientoEntity) cboEstados.getSelectedItem());
