@@ -13,12 +13,14 @@ import android.widget.TextView;
 import com.designfreed.distribuidoras_app_pedidos.R;
 import com.designfreed.distribuidoras_app_pedidos.domain.ItemMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
+import com.designfreed.distribuidoras_app_pedidos.entities.ItemMovimientoEntity;
+import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.utils.Utils;
 
 import java.util.List;
 
-public class MovimientoAdapter extends ArrayAdapter<Movimiento> {
-    public MovimientoAdapter(Context context, List<Movimiento> objects) {
+public class MovimientoAdapter extends ArrayAdapter<MovimientoEntity> {
+    public MovimientoAdapter(Context context, List<MovimientoEntity> objects) {
         super(context, 0, objects);
     }
 
@@ -31,16 +33,16 @@ public class MovimientoAdapter extends ArrayAdapter<Movimiento> {
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_movimientos, parent, false);
         }
 
-        Movimiento movimiento = getItem(position);
+        MovimientoEntity movimiento = getItem(position);
 
         TextView razonSocial = (TextView) listItemView.findViewById(R.id.razon_social);
-        razonSocial.setText(movimiento.getCliente().getRazonSocial());
+        razonSocial.setText(movimiento.getClienteEntity().getRazonSocial());
 
         TextView direccion = (TextView) listItemView.findViewById(R.id.direccion);
-        direccion.setText(movimiento.getCliente().getCalle() + " " + movimiento.getCliente().getAltura());
+        direccion.setText(movimiento.getClienteEntity().getCalle() + " " + movimiento.getClienteEntity().getAltura());
 
         TextView estado = (TextView) listItemView.findViewById(R.id.estado);
-        estado.setText(movimiento.getEstadoMovimiento().getEstadoMovimientoNombre());
+        estado.setText(movimiento.getEstadoMovimientoEntity().getEstadoMovimientoNombre());
 
         CheckBox visito = (CheckBox) listItemView.findViewById(R.id.visito);
         visito.setChecked(movimiento.getVisito());
@@ -48,8 +50,8 @@ public class MovimientoAdapter extends ArrayAdapter<Movimiento> {
         Float kg = 0f;
         Float pes = 0f;
 
-        for (ItemMovimiento item: movimiento.getItems()) {
-            kg = kg + (item.getEnvase().getKilos() * item.getCantidad());
+        for (ItemMovimientoEntity item: movimiento.getItems()) {
+            kg = kg + (item.getEnvaseEntity().getKilos() * item.getCantidad());
             pes = pes + item.getMonto();
         }
 

@@ -1,12 +1,13 @@
 package com.designfreed.distribuidoras_app_pedidos.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class MovimientoEntity extends RealmObject {
+public class MovimientoEntity extends RealmObject implements Serializable {
     @PrimaryKey
     private Long id;
     private Long idCrm;

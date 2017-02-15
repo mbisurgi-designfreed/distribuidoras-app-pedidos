@@ -1,9 +1,11 @@
 package com.designfreed.distribuidoras_app_pedidos.entities;
 
+import java.io.Serializable;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class EnvaseEntity extends RealmObject {
+public class EnvaseEntity extends RealmObject implements Serializable {
     @PrimaryKey
     private Long id;
     private Long idCrm;

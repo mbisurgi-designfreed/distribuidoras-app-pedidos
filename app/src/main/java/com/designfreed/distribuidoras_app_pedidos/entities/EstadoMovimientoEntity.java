@@ -1,9 +1,11 @@
 package com.designfreed.distribuidoras_app_pedidos.entities;
 
+import java.io.Serializable;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class EstadoMovimientoEntity extends RealmObject {
+public class EstadoMovimientoEntity extends RealmObject implements Serializable {
     @PrimaryKey
     private Long id;
     private Long idCrm;
@@ -34,5 +36,10 @@ public class EstadoMovimientoEntity extends RealmObject {
 
     public void setEstadoMovimientoNombre(String estadoMovimientoNombre) {
         this.estadoMovimientoNombre = estadoMovimientoNombre;
+    }
+
+    @Override
+    public String toString() {
+        return estadoMovimientoNombre;
     }
 }

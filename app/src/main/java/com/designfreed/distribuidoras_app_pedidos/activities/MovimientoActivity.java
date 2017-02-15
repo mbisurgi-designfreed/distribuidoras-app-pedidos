@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 public class MovimientoActivity extends AppCompatActivity {
@@ -32,12 +33,16 @@ public class MovimientoActivity extends AppCompatActivity {
     private Chofer activeChofer;
     private Long tipoMovimientoId;
     private MovimientoAdapter adapter;
-    private List<Movimiento> activeMovimientos;
+    private List<MovimientoEntity> activeMovimientos;
+
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movimiento);
+
+        realm = Realm.getDefaultInstance();
 
         activeChofer = (Chofer) getIntent().getSerializableExtra("chofer");
         tipoMovimientoId = (Long) getIntent().getSerializableExtra("tipo");
@@ -45,7 +50,7 @@ public class MovimientoActivity extends AppCompatActivity {
         emptyView = (TextView) findViewById(R.id.empty);
         progressBar = (ProgressBar) findViewById(R.id.progress);
 
-        adapter = new MovimientoAdapter(this, new ArrayList<Movimiento>());
+        adapter = new MovimientoAdapter(this, new ArrayList<MovimientoEntity>());
 
         movimientosListView = (ListView) findViewById(R.id.list);
         movimientosListView.setEmptyView(emptyView);
@@ -53,42 +58,32 @@ public class MovimientoActivity extends AppCompatActivity {
         movimientosListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Movimiento movimiento = (Movimiento) parent.getItemAtPosition(position);
+                MovimientoEntity movimiento = (MovimientoEntity) parent.getItemAtPosition(position);
 
                 Intent intent = new Intent(getApplicationContext(), MovimientoDetalleActivity.class);
                 intent.putExtra("chofer", activeChofer);
-                intent.putExtra("movimiento", movimiento);
+                intent.putExtra("movimiento", movimiento.getId());
                 startActivity(intent);
             }
         });
 
-        new LoadMovimientosTask().execute(tipoMovimientoId);
+        LoadMovimientos(tipoMovimientoId);
+        //new LoadMovimientosTask().execute(tipoMovimientoId);
     }
 
-    private class LoadMovimientosTask extends AsyncTask<Long, Void, List<Movimiento>> {
+    private void LoadMovimientos(Long tipoId) {
+        RealmResults<MovimientoEntity> movimientos = realm.where(MovimientoEntity.class)
+                    .equalTo("tipoMovimientoEntity.idCrm", tipoId)
+                    .findAllAsync();
+
+        movimientos.addChangeListener(callback);
+    }
+
+
+    private RealmChangeListener callback = new RealmChangeListener() {
         @Override
-        protected List<Movimiento> doInBackground(Long... params) {
-            Realm realm = Realm.getDefaultInstance();
-
-            final Long tipoId = params[0];
-
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    RealmResults<MovimientoEntity> movimientos = realm.where(MovimientoEntity.class)
-                            .equalTo("tipoMovimientoEntity.idCrm", tipoId)
-                            .findAll();
-
-                    activeMovimientos = new MovimientoEntityMovimientoConverter().movimientosEntityToMovimientos(movimientos);
-                }
-            });
-
-            return activeMovimientos;
-        }
-
-        @Override
-        protected void onPostExecute(List<Movimiento> movimientos) {
-            super.onPostExecute(movimientos);
+        public void onChange(Object element) {
+            activeMovimientos = (RealmResults<MovimientoEntity>) element;
 
             if (activeMovimientos != null && !activeMovimientos.isEmpty()) {
                 emptyView.setText("");
@@ -99,5 +94,37 @@ public class MovimientoActivity extends AppCompatActivity {
 
             progressBar.setVisibility(View.GONE);
         }
-    }
+
+    };
+
+//    private class LoadMovimientosTask extends AsyncTask<Long, Void, List<MovimientoEntity>> {
+//        private Realm realm = Realm.getDefaultInstance();
+//
+//        @Override
+//        protected List<MovimientoEntity> doInBackground(Long... params) {
+//            final Long tipoId = params[0];
+//
+//            RealmResults<MovimientoEntity> movimientos = realm.where(MovimientoEntity.class)
+//                    .equalTo("tipoMovimientoEntity.idCrm", tipoId)
+//                    .findAllAsync();
+//
+//            activeMovimientos = movimientos;
+//
+//            return activeMovimientos;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(List<MovimientoEntity> movimientos) {
+//            super.onPostExecute(movimientos);
+//
+//            if (activeMovimientos != null && !activeMovimientos.isEmpty()) {
+//                emptyView.setText("");
+//                adapter.addAll(activeMovimientos);
+//            } else {
+//                emptyView.setText("No existen movimientos. Realice una sincronizacion para obtener nuevos movimientos.");
+//            }
+//
+//            progressBar.setVisibility(View.GONE);
+//        }
+//    }
 }

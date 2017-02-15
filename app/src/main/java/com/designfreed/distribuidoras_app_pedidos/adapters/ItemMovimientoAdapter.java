@@ -11,12 +11,13 @@ import android.widget.TextView;
 
 import com.designfreed.distribuidoras_app_pedidos.R;
 import com.designfreed.distribuidoras_app_pedidos.domain.ItemMovimiento;
+import com.designfreed.distribuidoras_app_pedidos.entities.ItemMovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.utils.Utils;
 
 import java.util.List;
 
-public class ItemMovimientoAdapter extends ArrayAdapter<ItemMovimiento> {
-    public ItemMovimientoAdapter(Context context, List<ItemMovimiento> objects) {
+public class ItemMovimientoAdapter extends ArrayAdapter<ItemMovimientoEntity> {
+    public ItemMovimientoAdapter(Context context, List<ItemMovimientoEntity> objects) {
         super(context, 0, objects);
     }
 
@@ -28,10 +29,10 @@ public class ItemMovimientoAdapter extends ArrayAdapter<ItemMovimiento> {
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
         }
 
-        final ItemMovimiento item = getItem(position);
+        final ItemMovimientoEntity item = getItem(position);
 
         TextView articulo = (TextView) listItemView.findViewById(R.id.producto);
-        articulo.setText(item.getEnvase().getEnvaseNombre());
+        articulo.setText(item.getEnvaseEntity().getEnvaseNombre());
 
         TextView cantidad = (TextView) listItemView.findViewById(R.id.cantidad);
         cantidad.setText(item.getCantidad().toString());

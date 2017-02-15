@@ -1,11 +1,12 @@
 package com.designfreed.distribuidoras_app_pedidos.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class HojaRutaEntity extends RealmObject {
+public class HojaRutaEntity extends RealmObject implements Serializable {
     @PrimaryKey
     private Long id;
     private Long idCrm;

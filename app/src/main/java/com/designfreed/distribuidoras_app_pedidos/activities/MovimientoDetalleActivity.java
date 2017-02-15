@@ -28,6 +28,7 @@ import com.designfreed.distribuidoras_app_pedidos.domain.Motivo;
 import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
 import com.designfreed.distribuidoras_app_pedidos.entities.EnvaseEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.EstadoMovimientoEntity;
+import com.designfreed.distribuidoras_app_pedidos.entities.ItemMovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MotivoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.utils.Utils;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class MovimientoDetalleActivity extends AppCompatActivity {
@@ -57,11 +59,11 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
     private ImageButton btnGrabar;
 
     private Chofer activeChofer;
-    private Movimiento movimiento;
-    private List<Envase> envases = new ArrayList<>();
-    private List<EstadoMovimiento> estados = new ArrayList<>();
-    private List<Motivo> motivos = new ArrayList<>();
-    private List<ItemMovimiento> items = new ArrayList<>();
+    private MovimientoEntity movimiento;
+    private List<EnvaseEntity> envases = new ArrayList<>();
+    private List<EstadoMovimientoEntity> estados = new ArrayList<>();
+    private List<MotivoEntity> motivos = new ArrayList<>();
+    private List<ItemMovimientoEntity> items = new ArrayList<>();
 
     private Realm realm;
 
@@ -76,25 +78,25 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         LoadEstados();
         LoadMotivos();
 
-        ArrayAdapter<Envase> envaseArrayAdapter = new ArrayAdapter<Envase>(this, android.R.layout.simple_dropdown_item_1line, envases);
-        ArrayAdapter<EstadoMovimiento> estadoArrayAdapter = new ArrayAdapter<EstadoMovimiento>(this, android.R.layout.simple_dropdown_item_1line, estados);
-        ArrayAdapter<Motivo> motivoArrayAdapter = new ArrayAdapter<Motivo>(this, android.R.layout.simple_dropdown_item_1line, motivos);
+        ArrayAdapter<EnvaseEntity> envaseArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, envases);
+        ArrayAdapter<EstadoMovimientoEntity> estadoArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, estados);
+        ArrayAdapter<MotivoEntity> motivoArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, motivos);
 
         activeChofer = (Chofer) getIntent().getSerializableExtra("chofer");
-        movimiento = (Movimiento) getIntent().getSerializableExtra("movimiento");
+        movimiento = realm.where(MovimientoEntity.class).equalTo("id", (Long) getIntent().getSerializableExtra("movimiento")).findFirst();
 
         txtCodigo = (TextView) findViewById(R.id.codigo);
-        txtCodigo.setText(movimiento.getCliente().getId().toString());
+        txtCodigo.setText(movimiento.getClienteEntity().getId().toString());
         txtRazonSocial = (TextView) findViewById(R.id.razon_social);
-        txtRazonSocial.setText(movimiento.getCliente().getRazonSocial());
+        txtRazonSocial.setText(movimiento.getClienteEntity().getRazonSocial());
         txtDireccion = (TextView) findViewById(R.id.direccion);
-        txtDireccion.setText(movimiento.getCliente().getCalle() + " " + movimiento.getCliente().getAltura());
+        txtDireccion.setText(movimiento.getClienteEntity().getCalle() + " " + movimiento.getClienteEntity().getAltura());
         txtCondicionVentaCliente = (TextView) findViewById(R.id.condicion_cliente);
-        txtCondicionVentaCliente.setText(movimiento.getCliente().getCondicionVenta().getCondicionVentaNombre());
+        txtCondicionVentaCliente.setText(movimiento.getClienteEntity().getCondicionVentaEntity().getCondicionVentaNombre());
         txtFecha = (TextView) findViewById(R.id.fecha);
         txtFecha.setText(Utils.formatDate(movimiento.getFecha()));
         txtCondicionVentaMovimiento = (TextView) findViewById(R.id.condicion_movimiento);
-        txtCondicionVentaMovimiento.setText(movimiento.getCondicionVenta().getCondicionVentaNombre());
+        txtCondicionVentaMovimiento.setText(movimiento.getCondicionVentaEntity().getCondicionVentaNombre());
 
         itemMovimientoAdapter = new ItemMovimientoAdapter(this, items);
 
@@ -116,26 +118,26 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
 
         LoadItems(movimiento);
 
-        cboEstados.setSelection(getIndexEstadoMovimiento(cboEstados, movimiento.getEstadoMovimiento().getId()));
+        cboEstados.setSelection(getIndexEstadoMovimiento(cboEstados, movimiento.getEstadoMovimientoEntity().getId()));
 
         cbVisito.setChecked(movimiento.getVisito());
 
-        if (movimiento.getMotivo() != null) {
-            cboMotivos.setSelection(getIndexMotivo(cboMotivos, movimiento.getMotivo().getId()));
+        if (movimiento.getMotivoEntity() != null) {
+            cboMotivos.setSelection(getIndexMotivo(cboMotivos, movimiento.getMotivoEntity().getId()));
         }
 
         btnAgregar = (ImageButton) findViewById(R.id.agregar);
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ItemMovimiento item = new ItemMovimiento();
+                ItemMovimientoEntity item = new ItemMovimientoEntity();
 
-                Envase env = (Envase) cboProducto.getSelectedItem();
+                EnvaseEntity env = (EnvaseEntity) cboProducto.getSelectedItem();
 
                 Integer cantidad = Integer.valueOf(txtCantidad.getText().toString());
                 Float precio = Float.valueOf(txtPrecio.getText().toString());
 
-                item.setEnvase(env);
+                item.setEnvaseEntity(env);
                 item.setCantidad(cantidad);
                 item.setMonto(precio);
 
@@ -153,22 +155,53 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         btnGrabar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                movimiento.setEstadoMovimiento((EstadoMovimiento) cboEstados.getSelectedItem());
-                movimiento.setVisito(cbVisito.isChecked());
+                Number primaryKeyItem = realm.where(ItemMovimientoEntity.class).max("id");
+                Long idItem;
 
-                if (((Motivo)cboMotivos.getSelectedItem()).getId() != null) {
-                    movimiento.setMotivo((Motivo) cboMotivos.getSelectedItem());
+                if (primaryKeyItem == null) {
+                    idItem = 1L;
                 } else {
-                    movimiento.setMotivo(null);
+                    idItem = primaryKeyItem.longValue() + 1;
                 }
 
-                movimiento.setSincronizado(false);
+                final RealmList<ItemMovimientoEntity> itemsModificados = new RealmList<>();
 
-                final MovimientoEntity movimientoEntity = new MovimientoEntityMovimientoConverter().movimientoToMovimientoEntity(movimiento);
+                for (ItemMovimientoEntity item: items) {
+                    if (item.getId() == null) {
+                        item.setId(idItem);
+                        idItem++;
+                    }
+
+                    itemsModificados.add(item);
+                }
+                //final MovimientoEntity movimientoEntity = movimiento;
 
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
+                        //movimiento.setItems(itemsModificados);
+                        //movimiento.setEstadoMovimientoEntity((EstadoMovimientoEntity) cboEstados.getSelectedItem());
+                        //movimiento.setVisito(cbVisito.isChecked());
+
+//                        if (((Motivo)cboMotivos.getSelectedItem()).getId() != null) {
+//                            movimiento.setMotivoEntity((MotivoEntity) cboMotivos.getSelectedItem());
+//                        } else {
+//                            movimiento.setMotivoEntity(null);
+//                        }
+
+                        //movimiento.setSincronizado(false);
+
+                        MovimientoEntity movimientoEntity = realm.where(MovimientoEntity.class).equalTo("id", movimiento.getId()).findFirst();
+                        movimientoEntity.setEstadoMovimientoEntity((EstadoMovimientoEntity) cboEstados.getSelectedItem());
+                        movimientoEntity.setVisito(cbVisito.isChecked());
+                        if (((MotivoEntity)cboMotivos.getSelectedItem()).getId() != null) {
+                            movimientoEntity.setMotivoEntity((MotivoEntity) cboMotivos.getSelectedItem());
+                        } else {
+                            movimientoEntity.setMotivoEntity(null);
+                        }
+                        movimientoEntity.setItems(itemsModificados);
+                        movimientoEntity.setSincronizado(false);
+
                         realm.copyToRealmOrUpdate(movimientoEntity);
                     }
                 });
@@ -185,7 +218,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         RealmResults<EnvaseEntity> envases = realm.where(EnvaseEntity.class).findAll();
 
         for (EnvaseEntity envase: envases) {
-            this.envases.add(new EnvaseEntityEnvaseConverter().envaseEntityToEnvase(envase));
+            this.envases.add(envase);
         }
     }
 
@@ -193,21 +226,21 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         RealmResults<EstadoMovimientoEntity> estados = realm.where(EstadoMovimientoEntity.class).findAll();
 
         for (EstadoMovimientoEntity estado: estados) {
-            this.estados.add(new EstadoMovimientoEntityEstadoMovimientoConverter().estadoMovimientoEntityToEstadoMovimiento(estado));
+            this.estados.add(estado);
         }
     }
 
     private void LoadMotivos() {
         RealmResults<MotivoEntity> motivos = realm.where(MotivoEntity.class).findAll();
 
-        this.motivos.add(new Motivo());
+        this.motivos.add(new MotivoEntity());
 
         for (MotivoEntity motivo: motivos) {
-            this.motivos.add(new MotivoEntityMotivoConverter().motivoEntityToMotivo(motivo));
+            this.motivos.add(motivo);
         }
     }
 
-    private void LoadItems(Movimiento movimiento) {
+    private void LoadItems(MovimientoEntity movimiento) {
         if (movimiento.getItems() != null) {
             items.addAll(movimiento.getItems());
 
@@ -219,7 +252,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         int index = 0;
 
         for (int i=0;i<spinner.getCount();i++){
-            if (((EstadoMovimiento)spinner.getItemAtPosition(i)).getId().equals(id)){
+            if (((EstadoMovimientoEntity)spinner.getItemAtPosition(i)).getIdCrm().equals(id)){
                 index = i;
                 break;
             }
@@ -232,7 +265,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         int index = 0;
 
         for (int i=0;i<spinner.getCount();i++){
-            if (((Motivo)spinner.getItemAtPosition(i)).getId() != null && ((Motivo)spinner.getItemAtPosition(i)).getId().equals(id)){
+            if (((MotivoEntity)spinner.getItemAtPosition(i)).getIdCrm() != null && ((MotivoEntity)spinner.getItemAtPosition(i)).getIdCrm().equals(id)){
                 index = i;
                 break;
             }
