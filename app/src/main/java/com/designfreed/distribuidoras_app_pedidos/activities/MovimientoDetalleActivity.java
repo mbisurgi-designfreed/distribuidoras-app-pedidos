@@ -155,22 +155,9 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         btnGrabar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //final MovimientoEntity movimientoEntity = movimiento;
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        //movimiento.setItems(itemsModificados);
-                        //movimiento.setEstadoMovimientoEntity((EstadoMovimientoEntity) cboEstados.getSelectedItem());
-                        //movimiento.setVisito(cbVisito.isChecked());
-
-//                        if (((Motivo)cboMotivos.getSelectedItem()).getId() != null) {
-//                            movimiento.setMotivoEntity((MotivoEntity) cboMotivos.getSelectedItem());
-//                        } else {
-//                            movimiento.setMotivoEntity(null);
-//                        }
-
-                        //movimiento.setSincronizado(false);
-
                         Number primaryKeyItem = realm.where(ItemMovimientoEntity.class).max("id");
                         Long idItem;
 

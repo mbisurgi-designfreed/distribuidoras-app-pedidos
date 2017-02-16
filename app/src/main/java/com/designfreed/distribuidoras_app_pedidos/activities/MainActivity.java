@@ -404,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
                     return null;
                 }
 
-                return Arrays.asList(movimientos);
+                return Arrays.asList(response.getBody());
             } catch (ResourceAccessException connectException) {
                 return null;
             }
@@ -418,7 +418,29 @@ public class MainActivity extends AppCompatActivity {
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        realm.copyToRealmOrUpdate(new MovimientoEntityMovimientoConverter().movimientosToMovimientosEntity(movimientos));
+                        RealmResults<MovimientoEntity> movimientosEntity = realm.where(MovimientoEntity.class).equalTo("sincronizado", false).findAll();
+
+                        for (int i = 0; i < movimientosEntity.size(); i++) {
+                            Movimiento movimiento = movimientos.get(i);
+                            MovimientoEntity movimientoEntity = movimientosEntity.get(i);
+
+                            if (movimientoEntity.getIdCrm() == null) {
+                                movimientoEntity.setIdCrm(movimiento.getId());
+                            }
+
+                            movimientoEntity.setSincronizado(true);
+
+                            for (int j = 0; j < movimientoEntity.getItems().size(); j++) {
+                                ItemMovimiento itemMovimiento = movimiento.getItems().get(j);
+                                ItemMovimientoEntity itemMovimientoEntity = movimientoEntity.getItems().get(j);
+
+                                if (itemMovimientoEntity.getIdCrm() == null) {
+                                    itemMovimientoEntity.setIdCrm(itemMovimiento.getId());
+                                }
+                            }
+                        }
+
+                        realm.copyToRealmOrUpdate(movimientosEntity);
                     }
                 });
 
