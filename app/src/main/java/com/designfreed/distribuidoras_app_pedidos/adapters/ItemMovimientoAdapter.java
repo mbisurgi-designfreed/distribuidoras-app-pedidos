@@ -38,7 +38,7 @@ public class ItemMovimientoAdapter extends ArrayAdapter<ItemMovimientoEntity> {
         cantidad.setText(item.getCantidad().toString());
 
         TextView precio = (TextView) listItemView.findViewById(R.id.precio);
-        precio.setText(Utils.formatSaldo(item.getMonto() / item.getCantidad()));
+        precio.setText(Utils.formatSaldo(item.getMonto()));
 
         ImageButton remover = (ImageButton) listItemView.findViewById(R.id.eliminar);
         remover.setOnClickListener(new View.OnClickListener() {

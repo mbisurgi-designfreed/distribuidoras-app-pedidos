@@ -351,6 +351,7 @@
                         android:textColor="#FFFFFF"
                         android:textStyle="bold"
                         android:inputType="numberDecimal"
+                        android:enabled="false"
                         android:hint="$"
                         android:textColorHint="#FFFFFF"/>
 

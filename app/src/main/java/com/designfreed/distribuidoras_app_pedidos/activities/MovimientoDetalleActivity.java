@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -26,8 +27,10 @@ import com.designfreed.distribuidoras_app_pedidos.domain.EstadoMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.domain.ItemMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.domain.Motivo;
 import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
+import com.designfreed.distribuidoras_app_pedidos.entities.ClienteEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.EnvaseEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.EstadoMovimientoEntity;
+import com.designfreed.distribuidoras_app_pedidos.entities.ItemListaPrecioEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.ItemMovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MotivoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
@@ -104,6 +107,30 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         itemsListView.setAdapter(itemMovimientoAdapter);
 
         cboProducto = (Spinner) findViewById(R.id.producto);
+        cboProducto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                EnvaseEntity envase = (EnvaseEntity) cboProducto.getItemAtPosition(position);
+                ClienteEntity cliente = movimiento.getClienteEntity();
+
+                Float precio = 0F;
+
+                for (ItemListaPrecioEntity item: cliente.getListaPrecioEntity().getItems()) {
+                    if (item.getEnvaseEntity().getEnvaseCodigo().equals(envase.getEnvaseCodigo())) {
+                        precio = item.getPrecio();
+                        break;
+                    }
+                }
+
+                txtPrecio.setText(precio.toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         txtCantidad = (EditText) findViewById(R.id.cantidad);
         txtPrecio = (EditText) findViewById(R.id.precio);
 
@@ -139,7 +166,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
 
                 item.setEnvaseEntity(env);
                 item.setCantidad(cantidad);
-                item.setMonto(precio);
+                item.setMonto(precio * cantidad);
 
                 items.add(item);
 
