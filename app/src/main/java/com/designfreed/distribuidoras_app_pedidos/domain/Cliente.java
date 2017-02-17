@@ -9,6 +9,7 @@ public class Cliente implements Serializable {
     private String altura;
     private String telefono;
     private CondicionVenta condicionVenta;
+    private ListaPrecio listaPrecio;
 
     public Cliente() {
     }
@@ -59,5 +60,13 @@ public class Cliente implements Serializable {
 
     public void setCondicionVenta(CondicionVenta condicionVenta) {
         this.condicionVenta = condicionVenta;
+    }
+
+    public ListaPrecio getListaPrecio() {
+        return listaPrecio;
+    }
+
+    public void setListaPrecio(ListaPrecio listaPrecio) {
+        this.listaPrecio = listaPrecio;
     }
 }
