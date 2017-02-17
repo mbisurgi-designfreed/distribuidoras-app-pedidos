@@ -16,6 +16,7 @@ public class ClienteEntityClienteConverter {
         clienteEntity.setAltura(cliente.getAltura());
         clienteEntity.setTelefono(cliente.getTelefono());
         clienteEntity.setCondicionVentaEntity(new CondicionVentaEntityCondicionVentaConverter().condicionVentaToCondicionVentaEntity(cliente.getCondicionVenta()));
+        clienteEntity.setListaPrecioEntity(new ListaPrecioEntityListaPrecioConverter().listaPrecioToListaPrecioEntity(cliente.getListaPrecio()));
 
         return clienteEntity;
     }
@@ -28,6 +29,7 @@ public class ClienteEntityClienteConverter {
         cliente.setAltura(clienteEntity.getAltura());
         cliente.setTelefono(clienteEntity.getTelefono());
         cliente.setCondicionVenta(new CondicionVentaEntityCondicionVentaConverter().condicionVentaEntityToCondicionVenta(clienteEntity.getCondicionVentaEntity()));
+        cliente.setListaPrecio(new ListaPrecioEntityListaPrecioConverter().listaPrecioEntityToListaPrecio(clienteEntity.getListaPrecioEntity()));
 
         return cliente;
     }
