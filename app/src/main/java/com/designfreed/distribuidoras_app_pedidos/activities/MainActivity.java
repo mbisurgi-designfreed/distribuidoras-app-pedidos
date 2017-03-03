@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.designfreed.distribuidoras_app_pedidos.R;
+import com.designfreed.distribuidoras_app_pedidos.constants.Constants;
 import com.designfreed.distribuidoras_app_pedidos.converters.DateConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.EnvaseEntityEnvaseConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.EstadoMovimientoEntityEstadoMovimientoConverter;
@@ -160,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         protected HojaRuta doInBackground(Void... params) {
             Long fecha = new DateConverter().dateToLong(new Date());
 
-            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/hojaRuta/findByFechaChofer/" + fecha + "/" + activeChofer.getId();
+            String url = Constants.SERVER + "distribuidoras-backend/hojaRuta/findByFechaChofer/" + fecha + "/" + activeChofer.getId();
 
             try {
                 RestTemplate restTemplate = new RestTemplate();
@@ -196,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
     private class LoadEnvasesTask extends AsyncTask<Void, Void, List<Envase>> {
         @Override
         protected List<Envase> doInBackground(Void... params) {
-            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/envase/list";
+            String url = Constants.SERVER + "distribuidoras-backend/envase/list";
 
             try {
                 RestTemplate restTemplate = new RestTemplate();
@@ -228,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
     private class LoadEstadosTask extends AsyncTask<Void, Void, List<EstadoMovimiento>> {
         @Override
         protected List<EstadoMovimiento> doInBackground(Void... params) {
-            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/estadoMovimiento/list";
+            String url = Constants.SERVER + "distribuidoras-backend/estadoMovimiento/list";
 
             try {
                 RestTemplate restTemplate = new RestTemplate();
@@ -260,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
     private class LoadMotivosTask extends AsyncTask<Void, Void, List<Motivo>> {
         @Override
         protected List<Motivo> doInBackground(Void... params) {
-            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/motivo/list";
+            String url = Constants.SERVER + "distribuidoras-backend/motivo/list";
 
             try {
                 RestTemplate restTemplate = new RestTemplate();
@@ -292,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
     private class SyncMovimientosRemotoTask extends AsyncTask<Void, Void, List<Movimiento>> {
         @Override
         protected List<Movimiento> doInBackground(Void... params) {
-            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/movimiento/findByHojaRutaSincronizado/" + activeHojaRuta.getId() + "/false";
+            String url = Constants.SERVER + "distribuidoras-backend/movimiento/findByHojaRutaSincronizado/" + activeHojaRuta.getId() + "/false";
 
             try {
                 RestTemplate restTemplate = new RestTemplate();
@@ -304,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
                     movimiento.setSincronizado(true);
                 }
 
-                String post = "http://bybgas.dyndns.org:8080/distribuidoras-backend/movimiento/add";
+                String post = Constants.SERVER + "distribuidoras-backend/movimiento/add";
 
                 ResponseEntity<Movimiento[]> response = restTemplate.postForEntity(post, movimientos, Movimiento[].class);
 
@@ -386,7 +387,7 @@ public class MainActivity extends AppCompatActivity {
     private class SyncMovimientosLocalTask extends AsyncTask<List<Movimiento>, Void, List<Movimiento>> {
         @Override
         protected List<Movimiento> doInBackground(List<Movimiento>... params) {
-            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/movimiento/add";
+            String url = Constants.SERVER + "distribuidoras-backend/movimiento/add";
 
             try {
                 RestTemplate restTemplate = new RestTemplate();

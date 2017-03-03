@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.designfreed.distribuidoras_app_pedidos.R;
+import com.designfreed.distribuidoras_app_pedidos.constants.Constants;
 import com.designfreed.distribuidoras_app_pedidos.domain.HojaRuta;
 import com.designfreed.distribuidoras_app_pedidos.entities.HojaRutaEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
@@ -49,7 +50,7 @@ public class CierreActivity extends AppCompatActivity {
     private class CerrarHojaRutaTask extends AsyncTask<HojaRuta, Void, Boolean> {
         @Override
         protected Boolean doInBackground(HojaRuta... params) {
-            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/hojaRuta/update";
+            String url = Constants.SERVER + "distribuidoras-backend/hojaRuta/update";
 
             try {
                 RestTemplate restTemplate = new RestTemplate();

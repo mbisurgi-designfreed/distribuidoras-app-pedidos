@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.designfreed.distribuidoras_app_pedidos.R;
+import com.designfreed.distribuidoras_app_pedidos.constants.Constants;
 import com.designfreed.distribuidoras_app_pedidos.domain.Chofer;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.ResourceAccessException;
@@ -62,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
             String username = params[0];
             String password = params[1];
 
-            String url = "http://bybgas.dyndns.org:8080/distribuidoras-backend/chofer/login/" + username + "/" + password;
+            String url = Constants.SERVER + "distribuidoras-backend/chofer/login/" + username + "/" + password;
 
             try {
                 RestTemplate restTemplate = new RestTemplate();
