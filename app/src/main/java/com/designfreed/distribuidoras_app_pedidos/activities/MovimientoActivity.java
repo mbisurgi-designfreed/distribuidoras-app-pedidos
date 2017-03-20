@@ -1,9 +1,8 @@
 package com.designfreed.distribuidoras_app_pedidos.activities;
 
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -12,10 +11,7 @@ import android.widget.TextView;
 
 import com.designfreed.distribuidoras_app_pedidos.R;
 import com.designfreed.distribuidoras_app_pedidos.adapters.MovimientoAdapter;
-import com.designfreed.distribuidoras_app_pedidos.converters.MovimientoEntityMovimientoConverter;
 import com.designfreed.distribuidoras_app_pedidos.domain.Chofer;
-import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
-import com.designfreed.distribuidoras_app_pedidos.domain.TipoMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
 
 import java.util.ArrayList;

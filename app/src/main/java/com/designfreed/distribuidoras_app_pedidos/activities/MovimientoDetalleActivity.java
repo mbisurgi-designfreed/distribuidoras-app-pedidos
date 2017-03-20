@@ -1,13 +1,11 @@
 package com.designfreed.distribuidoras_app_pedidos.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -17,16 +15,7 @@ import android.widget.TextView;
 
 import com.designfreed.distribuidoras_app_pedidos.R;
 import com.designfreed.distribuidoras_app_pedidos.adapters.ItemMovimientoAdapter;
-import com.designfreed.distribuidoras_app_pedidos.converters.EnvaseEntityEnvaseConverter;
-import com.designfreed.distribuidoras_app_pedidos.converters.EstadoMovimientoEntityEstadoMovimientoConverter;
-import com.designfreed.distribuidoras_app_pedidos.converters.MotivoEntityMotivoConverter;
-import com.designfreed.distribuidoras_app_pedidos.converters.MovimientoEntityMovimientoConverter;
 import com.designfreed.distribuidoras_app_pedidos.domain.Chofer;
-import com.designfreed.distribuidoras_app_pedidos.domain.Envase;
-import com.designfreed.distribuidoras_app_pedidos.domain.EstadoMovimiento;
-import com.designfreed.distribuidoras_app_pedidos.domain.ItemMovimiento;
-import com.designfreed.distribuidoras_app_pedidos.domain.Motivo;
-import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
 import com.designfreed.distribuidoras_app_pedidos.entities.ClienteEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.EnvaseEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.EstadoMovimientoEntity;
