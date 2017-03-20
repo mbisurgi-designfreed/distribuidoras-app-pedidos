@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton preRuteos;
     private ImageButton pedidos;
     private ImageButton listados;
+    private ImageButton voleos;
 
     private Chofer activeChofer;
     private HojaRuta activeHojaRuta;
@@ -102,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), CierreActivity.class);
                 intent.putExtra("hoja", activeHojaRuta);
                 startActivity(intent);
+            }
+        });
+
+        voleos = (ImageButton) findViewById(R.id.voleos);
+        voleos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
