@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.designfreed.distribuidoras_app_pedidos.R;
 import com.designfreed.distribuidoras_app_pedidos.adapters.ItemMovimientoAdapter;
+import com.designfreed.distribuidoras_app_pedidos.constants.Constants;
 import com.designfreed.distribuidoras_app_pedidos.domain.Chofer;
 import com.designfreed.distribuidoras_app_pedidos.entities.ClienteEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.EnvaseEntity;
@@ -23,9 +24,12 @@ import com.designfreed.distribuidoras_app_pedidos.entities.ItemListaPrecioEntity
 import com.designfreed.distribuidoras_app_pedidos.entities.ItemMovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MotivoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
+import com.designfreed.distribuidoras_app_pedidos.entities.TipoMovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
@@ -50,6 +54,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
     private CheckBox cbVisito;
     private ImageButton btnGrabar;
 
+    private Boolean voleo;
     private Chofer activeChofer;
     private MovimientoEntity movimiento;
     private List<EnvaseEntity> envases = new ArrayList<>();
@@ -74,8 +79,25 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         ArrayAdapter<EstadoMovimientoEntity> estadoArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, estados);
         ArrayAdapter<MotivoEntity> motivoArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, motivos);
 
+        voleo = (Boolean) getIntent().getSerializableExtra("voleo");
         activeChofer = (Chofer) getIntent().getSerializableExtra("chofer");
-        movimiento = realm.where(MovimientoEntity.class).equalTo("id", (Long) getIntent().getSerializableExtra("movimiento")).findFirst();
+
+        if (!voleo) {
+            movimiento = realm.where(MovimientoEntity.class).equalTo("id", (Long) getIntent().getSerializableExtra("movimiento")).findFirst();
+        } else {
+            ClienteEntity clienteEntity = realm.where(ClienteEntity.class).equalTo("idCrm", Constants.VOLEO).findFirst();
+            TipoMovimientoEntity tipoMovimientoEntity = realm.where(TipoMovimientoEntity.class).equalTo("idCrm", 3L).findFirst();
+            EstadoMovimientoEntity estadoMovimientoEntity = realm.where(EstadoMovimientoEntity.class).equalTo("idCrm", 3L).findFirst();
+
+            movimiento = new MovimientoEntity();
+            movimiento.setFecha(Utils.formatShortDate(new Date()));
+            movimiento.setClienteEntity(clienteEntity);
+            movimiento.setCondicionVentaEntity(clienteEntity.getCondicionVentaEntity());
+            movimiento.setTipoMovimientoEntity(tipoMovimientoEntity);
+            movimiento.setEstadoMovimientoEntity(estadoMovimientoEntity);
+            movimiento.setVisito(true);
+            movimiento.setVendio(true);
+        }
 
         txtCodigo = (TextView) findViewById(R.id.codigo);
         txtCodigo.setText(movimiento.getClienteEntity().getId().toString());
@@ -250,10 +272,12 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
     }
 
     private void LoadItems(MovimientoEntity movimiento) {
-        if (movimiento.getItems() != null) {
-            items.addAll(movimiento.getItems());
+        if (movimiento != null) {
+            if (movimiento.getItems() != null) {
+                items.addAll(movimiento.getItems());
 
-            itemMovimientoAdapter.notifyDataSetChanged();
+                itemMovimientoAdapter.notifyDataSetChanged();
+            }
         }
     }
 

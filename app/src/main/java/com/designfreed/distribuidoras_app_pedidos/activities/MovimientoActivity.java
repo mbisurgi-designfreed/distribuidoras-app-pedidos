@@ -58,6 +58,7 @@ public class MovimientoActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), MovimientoDetalleActivity.class);
                 intent.putExtra("chofer", activeChofer);
+                intent.putExtra("voleo", false);
                 intent.putExtra("movimiento", movimiento.getId());
                 startActivity(intent);
             }

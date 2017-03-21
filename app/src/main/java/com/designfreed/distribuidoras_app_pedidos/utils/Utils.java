@@ -1,6 +1,7 @@
 package com.designfreed.distribuidoras_app_pedidos.utils;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -23,4 +24,17 @@ public class Utils {
 
         return formatter.format(date);
     }
+
+   public static Date formatShortDate(Date date) {
+       SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+       String shortDate = formatter.format(date);
+
+       try {
+           return formatter.parse(shortDate);
+       } catch (ParseException e) {
+           e.printStackTrace();
+           return null;
+       }
+   }
 }

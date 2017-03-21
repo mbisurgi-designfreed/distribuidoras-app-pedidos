@@ -3,6 +3,9 @@ package com.designfreed.distribuidoras_app_pedidos.converters;
 import com.designfreed.distribuidoras_app_pedidos.domain.TipoMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.entities.TipoMovimientoEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TipoMovimientoEntityTipoMovimientoConverter {
     public TipoMovimientoEntityTipoMovimientoConverter() {
     }
@@ -22,5 +25,20 @@ public class TipoMovimientoEntityTipoMovimientoConverter {
         tipoMovimiento.setTipoMovimientoNombre(tipoMovimientoEntity.getTipoMovimientoNombre());
 
         return tipoMovimiento;
+    }
+
+    public List<TipoMovimientoEntity> tipoMovimientoToTipoMovimientoEntity(List<TipoMovimiento> tiposMovimiento) {
+        List<TipoMovimientoEntity> tiposMovimientoEntity = new ArrayList<>();
+
+        for (TipoMovimiento tipo: tiposMovimiento) {
+            TipoMovimientoEntity tipoMovimientoEntity = new TipoMovimientoEntity();
+            tipoMovimientoEntity.setId(tipo.getId());
+            tipoMovimientoEntity.setIdCrm(tipo.getId());
+            tipoMovimientoEntity.setTipoMovimientoNombre(tipo.getTipoMovimientoNombre());
+
+            tiposMovimientoEntity.add(tipoMovimientoEntity);
+        }
+
+        return tiposMovimientoEntity;
     }
 }

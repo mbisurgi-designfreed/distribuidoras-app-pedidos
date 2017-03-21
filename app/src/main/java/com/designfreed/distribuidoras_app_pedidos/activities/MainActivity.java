@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.designfreed.distribuidoras_app_pedidos.R;
 import com.designfreed.distribuidoras_app_pedidos.constants.Constants;
+import com.designfreed.distribuidoras_app_pedidos.converters.ClienteEntityClienteConverter;
+import com.designfreed.distribuidoras_app_pedidos.converters.CondicionVentaEntityCondicionVentaConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.DateConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.EnvaseEntityEnvaseConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.EstadoMovimientoEntityEstadoMovimientoConverter;
@@ -20,19 +22,26 @@ import com.designfreed.distribuidoras_app_pedidos.converters.HojaRutaEntityHojaR
 import com.designfreed.distribuidoras_app_pedidos.converters.ItemMovimientoEntityItemMovimientoConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.MotivoEntityMotivoConverter;
 import com.designfreed.distribuidoras_app_pedidos.converters.MovimientoEntityMovimientoConverter;
+import com.designfreed.distribuidoras_app_pedidos.converters.TipoMovimientoEntityTipoMovimientoConverter;
 import com.designfreed.distribuidoras_app_pedidos.domain.Chofer;
+import com.designfreed.distribuidoras_app_pedidos.domain.Cliente;
+import com.designfreed.distribuidoras_app_pedidos.domain.CondicionVenta;
 import com.designfreed.distribuidoras_app_pedidos.domain.Envase;
 import com.designfreed.distribuidoras_app_pedidos.domain.EstadoMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.domain.HojaRuta;
 import com.designfreed.distribuidoras_app_pedidos.domain.ItemMovimiento;
 import com.designfreed.distribuidoras_app_pedidos.domain.Motivo;
 import com.designfreed.distribuidoras_app_pedidos.domain.Movimiento;
+import com.designfreed.distribuidoras_app_pedidos.domain.TipoMovimiento;
+import com.designfreed.distribuidoras_app_pedidos.entities.ClienteEntity;
+import com.designfreed.distribuidoras_app_pedidos.entities.CondicionVentaEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.EnvaseEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.EstadoMovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.HojaRutaEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.ItemMovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MotivoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
+import com.designfreed.distribuidoras_app_pedidos.entities.TipoMovimientoEntity;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -110,7 +119,10 @@ public class MainActivity extends AppCompatActivity {
         voleos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getApplicationContext(), MovimientoDetalleActivity.class);
+                intent.putExtra("chofer", activeChofer);
+                intent.putExtra("voleo", true);
+                startActivity(intent);
             }
         });
 
@@ -134,8 +146,26 @@ public class MainActivity extends AppCompatActivity {
             pbProgress.setVisibility(View.VISIBLE);
         }
 
+        if (!existenCondiciones()) {
+            new LoadCondicionesTask().execute();
+
+            pbProgress.setVisibility(View.VISIBLE);
+        }
+
+        if (!existenTipos()) {
+            new LoadTiposTask().execute();
+
+            pbProgress.setVisibility(View.VISIBLE);
+        }
+
         if (!existenMotivos()) {
             new LoadMotivosTask().execute();
+
+            pbProgress.setVisibility(View.VISIBLE);
+        }
+
+        if (!existeCliente()) {
+            new LoadClienteVoleoTask().execute();
 
             pbProgress.setVisibility(View.VISIBLE);
         }
@@ -267,6 +297,70 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private class LoadCondicionesTask extends AsyncTask<Void, Void, List<CondicionVenta>> {
+        @Override
+        protected List<CondicionVenta> doInBackground(Void... params) {
+            String url = Constants.SERVER + "distribuidoras-backend/condicionVenta/list";
+
+            try {
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+                CondicionVenta[] condiciones = restTemplate.getForObject(url, CondicionVenta[].class);
+
+                return Arrays.asList(condiciones);
+            } catch (ResourceAccessException connectException) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final List<CondicionVenta> condiciones) {
+            super.onPostExecute(condiciones);
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.copyToRealmOrUpdate(new CondicionVentaEntityCondicionVentaConverter().condicionVentaToCondicionVentaEntity(condiciones));
+                }
+            });
+
+            pbProgress.setVisibility(View.GONE);
+        }
+    }
+
+    private class LoadTiposTask extends AsyncTask<Void, Void, List<TipoMovimiento>> {
+        @Override
+        protected List<TipoMovimiento> doInBackground(Void... params) {
+            String url = Constants.SERVER + "distribuidoras-backend/tipoMovimiento/list";
+
+            try {
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+                TipoMovimiento[] tipos = restTemplate.getForObject(url, TipoMovimiento[].class);
+
+                return Arrays.asList(tipos);
+            } catch (ResourceAccessException connectException) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final List<TipoMovimiento> tipos) {
+            super.onPostExecute(tipos);
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.copyToRealmOrUpdate(new TipoMovimientoEntityTipoMovimientoConverter().tipoMovimientoToTipoMovimientoEntity(tipos));
+                }
+            });
+
+            pbProgress.setVisibility(View.GONE);
+        }
+    }
+
     private class LoadMotivosTask extends AsyncTask<Void, Void, List<Motivo>> {
         @Override
         protected List<Motivo> doInBackground(Void... params) {
@@ -292,6 +386,38 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void execute(Realm realm) {
                     realm.copyToRealmOrUpdate(new MotivoEntityMotivoConverter().motivosToMotivosEntity(motivos));
+                }
+            });
+
+            pbProgress.setVisibility(View.GONE);
+        }
+    }
+
+    private class LoadClienteVoleoTask extends AsyncTask<Void, Void, Cliente> {
+        @Override
+        protected Cliente doInBackground(Void... params) {
+            String url = Constants.SERVER + "distribuidoras-backend/cliente/find/" + Constants.VOLEO;
+
+            try {
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+                Cliente cliente = restTemplate.getForObject(url, Cliente.class);
+
+                return cliente;
+            } catch (ResourceAccessException connectException) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(final Cliente cliente) {
+            super.onPostExecute(cliente);
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.copyToRealmOrUpdate(new ClienteEntityClienteConverter().clienteToClienteEntity(cliente));
                 }
             });
 
@@ -495,10 +621,42 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private Boolean existenCondiciones() {
+        RealmResults<CondicionVentaEntity> condiciones = realm.where(CondicionVentaEntity.class).findAll();
+
+        if (condiciones.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private Boolean existenTipos() {
+        RealmResults<TipoMovimientoEntity> tipos = realm.where(TipoMovimientoEntity.class).findAll();
+
+        if (tipos.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private Boolean existenMotivos() {
         RealmResults<MotivoEntity> motivos = realm.where(MotivoEntity.class).findAll();
 
         if (motivos.size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private Boolean existeCliente() {
+        ClienteEntity clienteEntity = realm.where(ClienteEntity.class)
+                .equalTo("idCrm", Constants.VOLEO)
+                .findFirst();
+
+        if (clienteEntity != null) {
             return true;
         } else {
             return false;
