@@ -7,6 +7,79 @@
     android:layout_height="match_parent"
     tools:context="com.designfreed.distribuidoras_app_pedidos.activities.CierreActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Telefonicos"/>
+
+        <TextView
+            android:id="@+id/telefonicos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            tools:text="10"/>
+
+        <TextView
+            android:id="@+id/telefonicos_entregados"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:textColor="@color/colorAccent"
+            tools:text="2"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Pre Ruteos"/>
+
+        <TextView
+            android:id="@+id/pre_ruteos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            tools:text="10"/>
+
+        <TextView
+            android:id="@+id/pre_ruteos_entregados"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:textColor="@color/colorAccent"
+            tools:text="2"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Voleos"/>
+
+        <TextView
+            android:id="@+id/voleos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            tools:text="10"/>
+    </LinearLayout>
+
     <Button
         android:id="@+id/cerrar"
         android:layout_width="wrap_content"
