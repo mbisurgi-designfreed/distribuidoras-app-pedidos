@@ -13,7 +13,9 @@ import com.designfreed.distribuidoras_app_pedidos.R;
 import com.designfreed.distribuidoras_app_pedidos.constants.Constants;
 import com.designfreed.distribuidoras_app_pedidos.domain.HojaRuta;
 import com.designfreed.distribuidoras_app_pedidos.entities.HojaRutaEntity;
+import com.designfreed.distribuidoras_app_pedidos.entities.ItemMovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
+import com.designfreed.distribuidoras_app_pedidos.utils.Utils;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,8 @@ public class CierreActivity extends AppCompatActivity {
     private TextView lblPreRuteos;
     private TextView lblPreRuteosEntregados;
     private TextView lblVoleos;
+    private TextView lblKilos;
+    private TextView lblPesos;
     private Button btnCerrar;
 
     private HojaRuta activeHojaRuta;
@@ -52,6 +56,8 @@ public class CierreActivity extends AppCompatActivity {
         lblPreRuteos = (TextView) findViewById(R.id.pre_ruteos);
         lblPreRuteosEntregados = (TextView) findViewById(R.id.pre_ruteos_entregados);
         lblVoleos = (TextView) findViewById(R.id.voleos);
+        lblKilos = (TextView) findViewById(R.id.kilos);
+        lblPesos = (TextView) findViewById(R.id.pesos);
 
         btnCerrar = (Button) findViewById(R.id.cerrar);
         btnCerrar.setOnClickListener(new View.OnClickListener() {
@@ -154,9 +160,24 @@ public class CierreActivity extends AppCompatActivity {
             }
         }
 
+        Float kilos = 0F;
+        Float pesos = 0F;
+
+        for (MovimientoEntity mov: movimientos) {
+            if (mov.getEstadoMovimientoEntity().getId().equals(3L)) {
+                for (ItemMovimientoEntity item: mov.getItems()) {
+                    kilos = kilos + (item.getCantidad() * item.getEnvaseEntity().getKilos());
+                    pesos = pesos + item.getMonto();
+                }
+            }
+        }
+
         lblPreRuteos.setText(String.valueOf(ruteos.size()));
         lblPreRuteosEntregados.setText(String.valueOf(entregados));
 
         lblVoleos.setText(String.valueOf(voleos.size()));
+
+        lblKilos.setText(String.valueOf(kilos));
+        lblPesos.setText(Utils.formatSaldo(pesos));
     }
 }
