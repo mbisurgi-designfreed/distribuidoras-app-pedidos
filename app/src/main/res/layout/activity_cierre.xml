@@ -80,6 +80,32 @@
             tools:text="10"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Ventas"/>
+
+        <TextView
+            android:id="@+id/kilos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            tools:text="10"/>
+
+        <TextView
+            android:id="@+id/pesos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            tools:text="10"/>
+    </LinearLayout>
+
     <Button
         android:id="@+id/cerrar"
         android:layout_width="wrap_content"
