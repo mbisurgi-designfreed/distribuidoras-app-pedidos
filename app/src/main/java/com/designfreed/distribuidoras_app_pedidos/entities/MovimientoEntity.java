@@ -21,6 +21,7 @@ public class MovimientoEntity extends RealmObject implements Serializable {
     private Boolean vendio;
     private MotivoEntity motivoEntity;
     private RealmList<ItemMovimientoEntity> items;
+    private String observaciones;
     private Boolean sincronizado;
 
     public MovimientoEntity() {
@@ -120,6 +121,14 @@ public class MovimientoEntity extends RealmObject implements Serializable {
 
     public void setItems(RealmList<ItemMovimientoEntity> items) {
         this.items = items;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 
     public Boolean getSincronizado() {

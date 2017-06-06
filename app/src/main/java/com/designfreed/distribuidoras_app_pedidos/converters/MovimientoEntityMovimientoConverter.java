@@ -28,6 +28,7 @@ public class MovimientoEntityMovimientoConverter {
             movimientoEntity.setMotivoEntity(new MotivoEntityMotivoConverter().motivoToMotivoEntity(movimiento.getMotivo()));
         }
         movimientoEntity.setItems(new ItemMovimientoEntityItemMovimientoConverter().itemsMovimientoToItemsMovimientoEntity(movimiento.getItems()));
+        movimientoEntity.setObservaciones(movimiento.getObservaciones());
         movimientoEntity.setSincronizado(movimiento.getSincronizado());
 
         return movimientoEntity;
@@ -48,6 +49,7 @@ public class MovimientoEntityMovimientoConverter {
             movimientoEntity.setMotivoEntity(new MotivoEntityMotivoConverter().motivoToMotivoEntity(movimiento.getMotivo()));
         }
         //movimientoEntity.setItems(new ItemMovimientoEntityItemMovimientoConverter().itemsMovimientoToItemsMovimientoEntity(movimiento.getItems()));
+        movimientoEntity.setObservaciones(movimiento.getObservaciones());
         movimientoEntity.setSincronizado(movimiento.getSincronizado());
 
         return movimientoEntity;
@@ -72,6 +74,7 @@ public class MovimientoEntityMovimientoConverter {
                 movimientoEntity.setMotivoEntity(new MotivoEntityMotivoConverter().motivoToMotivoEntity(movimiento.getMotivo()));
             }
             movimientoEntity.setItems(new ItemMovimientoEntityItemMovimientoConverter().itemsMovimientoToItemsMovimientoEntity(movimiento.getItems()));
+            movimientoEntity.setObservaciones(movimiento.getObservaciones());
             movimientoEntity.setSincronizado(movimiento.getSincronizado());
 
             movimientosEntity.add(movimientoEntity);
@@ -98,6 +101,7 @@ public class MovimientoEntityMovimientoConverter {
                 movimiento.setMotivo(new MotivoEntityMotivoConverter().motivoEntityToMotivo(movimientoEntity.getMotivoEntity()));
             }
             movimiento.setItems(new ItemMovimientoEntityItemMovimientoConverter().itemsMovimientoEntityToItemsMovimiento(movimientoEntity.getItems()));
+            movimiento.setObservaciones(movimientoEntity.getObservaciones());
             movimiento.setSincronizado(movimientoEntity.getSincronizado());
 
             movimientos.add(movimiento);
@@ -124,6 +128,7 @@ public class MovimientoEntityMovimientoConverter {
                 movimiento.setMotivo(new MotivoEntityMotivoConverter().motivoEntityToMotivo(movimientoEntity.getMotivoEntity()));
             }
             movimiento.setItems(new ItemMovimientoEntityItemMovimientoConverter().itemsMovimientoEntityToItemsMovimiento(movimientoEntity.getItems()));
+            movimiento.setObservaciones(movimientoEntity.getObservaciones());
             movimiento.setSincronizado(movimientoEntity.getSincronizado());
 
             movimientos.add(movimiento);

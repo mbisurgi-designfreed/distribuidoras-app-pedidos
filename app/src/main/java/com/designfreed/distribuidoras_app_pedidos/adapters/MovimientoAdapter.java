@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.designfreed.distribuidoras_app_pedidos.R;
@@ -34,6 +35,23 @@ public class MovimientoAdapter extends ArrayAdapter<MovimientoEntity> implements
         this.mMovimientosFiltrados = objects;
     }
 
+    @Override
+    public int getCount() {
+        return mMovimientosFiltrados.size();
+    }
+
+    @Override
+    public MovimientoEntity getItem(int position) {
+        return mMovimientosFiltrados.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+
+
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -56,6 +74,12 @@ public class MovimientoAdapter extends ArrayAdapter<MovimientoEntity> implements
 
         CheckBox visito = (CheckBox) listItemView.findViewById(R.id.visito);
         visito.setChecked(movimiento.getVisito());
+
+        ImageView image = (ImageView) listItemView.findViewById(R.id.img_observaciones);
+
+        if (movimiento.getObservaciones() != null) {
+            image.setImageDrawable(null);
+        }
 
         Float kg = 0f;
         Float pes = 0f;
