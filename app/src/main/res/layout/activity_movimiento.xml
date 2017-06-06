@@ -5,11 +5,18 @@
     android:layout_height="match_parent"
     android:padding="0dp">
 
+    <EditText
+        android:id="@+id/filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Filtrar"/>
+
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/list"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/filter"
         android:divider="#0067AC"
         android:dividerHeight="1dp" />
 

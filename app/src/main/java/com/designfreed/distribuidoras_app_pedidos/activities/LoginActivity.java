@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -70,6 +71,8 @@ public class LoginActivity extends AppCompatActivity {
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
                 Chofer chofer = restTemplate.getForObject(url, Chofer.class);
+
+                //33752905
 
                 return chofer;
             } catch (ResourceAccessException connectException) {

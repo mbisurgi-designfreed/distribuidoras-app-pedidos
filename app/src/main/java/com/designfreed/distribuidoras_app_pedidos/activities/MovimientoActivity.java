@@ -3,8 +3,12 @@ package com.designfreed.distribuidoras_app_pedidos.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -12,6 +16,7 @@ import android.widget.TextView;
 import com.designfreed.distribuidoras_app_pedidos.R;
 import com.designfreed.distribuidoras_app_pedidos.adapters.MovimientoAdapter;
 import com.designfreed.distribuidoras_app_pedidos.domain.Chofer;
+import com.designfreed.distribuidoras_app_pedidos.entities.ClienteEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
 
 import java.util.ArrayList;
@@ -19,9 +24,11 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class MovimientoActivity extends AppCompatActivity {
+    private EditText txtFiltro;
     private TextView emptyView;
     private ListView movimientosListView;
     private ProgressBar progressBar;
@@ -29,7 +36,7 @@ public class MovimientoActivity extends AppCompatActivity {
     private Chofer activeChofer;
     private Long tipoMovimientoId;
     private MovimientoAdapter adapter;
-    private List<MovimientoEntity> activeMovimientos;
+    private List<MovimientoEntity> activeMovimientos = new ArrayList<>();
 
     private Realm realm;
 
@@ -64,6 +71,24 @@ public class MovimientoActivity extends AppCompatActivity {
             }
         });
 
+        txtFiltro = (EditText) findViewById(R.id.filter);
+        txtFiltro.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         LoadMovimientos(tipoMovimientoId);
         //new LoadMovimientosTask().execute(tipoMovimientoId);
     }
@@ -80,7 +105,36 @@ public class MovimientoActivity extends AppCompatActivity {
     private RealmChangeListener callback = new RealmChangeListener() {
         @Override
         public void onChange(Object element) {
-            activeMovimientos = (RealmResults<MovimientoEntity>) element;
+            List<MovimientoEntity> movs = (RealmResults<MovimientoEntity>) element;
+
+            for (MovimientoEntity entity: movs) {
+                MovimientoEntity mov = new MovimientoEntity();
+                mov.setId(entity.getId());
+                mov.setIdCrm(entity.getIdCrm());
+                mov.setFecha(entity.getFecha());
+
+                ClienteEntity cli = new ClienteEntity();
+                cli.setId(entity.getClienteEntity().getId());
+                cli.setIdCrm(entity.getClienteEntity().getIdCrm());
+                cli.setRazonSocial(entity.getClienteEntity().getRazonSocial());
+                cli.setCalle(entity.getClienteEntity().getCalle());
+                cli.setAltura(entity.getClienteEntity().getAltura());
+                cli.setTelefono(entity.getClienteEntity().getTelefono());
+                cli.setCondicionVentaEntity(entity.getClienteEntity().getCondicionVentaEntity());
+                cli.setListaPrecioEntity(entity.getClienteEntity().getListaPrecioEntity());
+
+                mov.setClienteEntity(cli);
+                mov.setCondicionVentaEntity(entity.getCondicionVentaEntity());
+                mov.setEstadoMovimientoEntity(entity.getEstadoMovimientoEntity());
+                mov.setHojaRutaEntity(entity.getHojaRutaEntity());
+                mov.setVisito(entity.getVisito());
+                mov.setVendio(entity.getVendio());
+                mov.setMotivoEntity(entity.getMotivoEntity());
+                mov.setItems(entity.getItems());
+                mov.setSincronizado(entity.getSincronizado());
+
+                activeMovimientos.add(mov);
+            }
 
             if (activeMovimientos != null && !activeMovimientos.isEmpty()) {
                 emptyView.setText("");
