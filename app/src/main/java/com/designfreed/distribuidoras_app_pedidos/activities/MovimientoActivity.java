@@ -20,6 +20,8 @@ import com.designfreed.distribuidoras_app_pedidos.entities.ClienteEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import io.realm.Realm;
@@ -138,6 +140,12 @@ public class MovimientoActivity extends AppCompatActivity {
 
             if (activeMovimientos != null && !activeMovimientos.isEmpty()) {
                 emptyView.setText("");
+                Collections.sort(activeMovimientos, new Comparator<MovimientoEntity>() {
+                    @Override
+                    public int compare(MovimientoEntity o1, MovimientoEntity o2) {
+                        return o1.getEstadoMovimientoEntity().getEstadoMovimientoNombre().compareTo(o2.getEstadoMovimientoEntity().getEstadoMovimientoNombre());
+                    }
+                });
                 adapter.addAll(activeMovimientos);
             } else {
                 emptyView.setText("No existen movimientos. Realice una sincronizacion para obtener nuevos movimientos.");

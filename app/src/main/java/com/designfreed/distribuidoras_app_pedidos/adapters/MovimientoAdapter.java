@@ -22,6 +22,8 @@ import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MovimientoAdapter extends ArrayAdapter<MovimientoEntity> implements Filterable {
@@ -50,8 +52,6 @@ public class MovimientoAdapter extends ArrayAdapter<MovimientoEntity> implements
         return 0;
     }
 
-
-
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -77,7 +77,7 @@ public class MovimientoAdapter extends ArrayAdapter<MovimientoEntity> implements
 
         ImageView image = (ImageView) listItemView.findViewById(R.id.img_observaciones);
 
-        if (movimiento.getObservaciones() != null) {
+        if (movimiento.getObservaciones() == null) {
             image.setImageDrawable(null);
         }
 
@@ -106,6 +106,11 @@ public class MovimientoAdapter extends ArrayAdapter<MovimientoEntity> implements
         }
 
         return mFilter;
+    }
+
+    @Override
+    public void sort(@NonNull Comparator<? super MovimientoEntity> comparator) {
+        super.sort(comparator);
     }
 
     private class MovimientoFilter extends Filter {
@@ -140,6 +145,15 @@ public class MovimientoAdapter extends ArrayAdapter<MovimientoEntity> implements
                 mMovimientosFiltrados = (ArrayList<MovimientoEntity>) results.values;
                 notifyDataSetChanged();
             }
+
+            Collections.sort(mMovimientosFiltrados, new Comparator<MovimientoEntity>() {
+                @Override
+                public int compare(MovimientoEntity o1, MovimientoEntity o2) {
+                    return o1.getEstadoMovimientoEntity().getEstadoMovimientoNombre().compareTo(o2.getEstadoMovimientoEntity().getEstadoMovimientoNombre());
+                }
+            });
+
+            notifyDataSetChanged();
         }
     }
 }
