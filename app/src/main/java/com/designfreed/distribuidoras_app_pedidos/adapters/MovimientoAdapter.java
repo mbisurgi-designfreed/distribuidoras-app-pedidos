@@ -75,6 +75,10 @@ public class MovimientoAdapter extends ArrayAdapter<MovimientoEntity> implements
         CheckBox visito = (CheckBox) listItemView.findViewById(R.id.visito);
         visito.setChecked(movimiento.getVisito());
 
+        if (movimiento.getReclamo() == null) {
+            
+        }
+
         ImageView image = (ImageView) listItemView.findViewById(R.id.img_observaciones);
 
         if (movimiento.getObservaciones() == null) {
