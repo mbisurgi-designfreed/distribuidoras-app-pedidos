@@ -98,7 +98,7 @@
             <ImageView
                 android:id="@+id/img_reclamo"
                 style="@style/ImagerViewMovimientoDetalle"
-                android:src="@drawable/observaciones"/>
+                android:src="@drawable/reclamo"/>
 
             <ImageView
                 android:id="@+id/img_observaciones"
