@@ -133,6 +133,8 @@ public class MovimientoActivity extends AppCompatActivity {
                 mov.setVendio(entity.getVendio());
                 mov.setMotivoEntity(entity.getMotivoEntity());
                 mov.setItems(entity.getItems());
+                mov.setReclamo(entity.getReclamo());
+                mov.setObservaciones(entity.getObservaciones());
                 mov.setSincronizado(entity.getSincronizado());
 
                 activeMovimientos.add(mov);
