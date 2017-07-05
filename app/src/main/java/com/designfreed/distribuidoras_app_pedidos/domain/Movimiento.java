@@ -17,6 +17,8 @@ public class Movimiento implements Serializable {
     private Boolean vendio;
     private Motivo motivo;
     private List<ItemMovimiento> items = new ArrayList<>();
+    private Boolean reclamo;
+    private String observaciones;
     private Boolean sincronizado;
 
     public Movimiento() {
@@ -108,6 +110,22 @@ public class Movimiento implements Serializable {
 
     public void setItems(List<ItemMovimiento> items) {
         this.items = items;
+    }
+
+    public Boolean getReclamo() {
+        return reclamo;
+    }
+
+    public void setReclamo(Boolean reclamo) {
+        this.reclamo = reclamo;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 
     public Boolean getSincronizado() {

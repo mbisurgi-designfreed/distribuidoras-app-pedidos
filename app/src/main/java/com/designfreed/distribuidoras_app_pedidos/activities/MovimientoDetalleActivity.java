@@ -44,6 +44,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
     private TextView txtCondicionVentaCliente;
     private TextView txtFecha;
     private TextView txtCondicionVentaMovimiento;
+    private TextView txtObservaciones;
     private Spinner cboProducto;
     private EditText txtCantidad;
     private EditText txtPrecio;
@@ -110,6 +111,8 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         txtFecha.setText(Utils.formatDate(movimiento.getFecha()));
         txtCondicionVentaMovimiento = (TextView) findViewById(R.id.condicion_movimiento);
         txtCondicionVentaMovimiento.setText(movimiento.getCondicionVentaEntity().getCondicionVentaNombre());
+        txtObservaciones = (TextView) findViewById(R.id.observaciones);
+        txtObservaciones.setText(movimiento.getObservaciones());
 
         itemMovimientoAdapter = new ItemMovimientoAdapter(this, items);
 
