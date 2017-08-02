@@ -213,6 +213,8 @@ public class MovimientoDetalleActivity extends AppCompatActivity implements Goog
                             mProgress.show();
 
                             Log.i("LatLng", lat + ", " + lng);
+
+                            new UbicarTask().execute();
                         }
                     } catch (SecurityException e) {
                         Log.i(TAG, e.toString());
