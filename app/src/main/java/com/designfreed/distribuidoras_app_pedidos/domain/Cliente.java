@@ -7,6 +7,8 @@ public class Cliente implements Serializable {
     private String razonSocial;
     private String calle;
     private String altura;
+    private Double lat;
+    private Double lng;
     private String telefono;
     private CondicionVenta condicionVenta;
     private ListaPrecio listaPrecio;
@@ -44,6 +46,22 @@ public class Cliente implements Serializable {
 
     public void setAltura(String altura) {
         this.altura = altura;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
     }
 
     public String getTelefono() {

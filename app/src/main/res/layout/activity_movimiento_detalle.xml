@@ -202,6 +202,19 @@
                         tools:text="olazabal 1834"/>
                 </LinearLayout>
             </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:id="@+id/ubicar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/direccion" />
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 

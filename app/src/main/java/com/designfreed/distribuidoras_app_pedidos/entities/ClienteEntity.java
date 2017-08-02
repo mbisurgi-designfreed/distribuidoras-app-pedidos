@@ -12,6 +12,8 @@ public class ClienteEntity extends RealmObject implements Serializable {
     private String razonSocial;
     private String calle;
     private String altura;
+    private Double lat;
+    private Double lng;
     private String telefono;
     private CondicionVentaEntity condicionVentaEntity;
     private ListaPrecioEntity listaPrecioEntity;
@@ -57,6 +59,22 @@ public class ClienteEntity extends RealmObject implements Serializable {
 
     public void setAltura(String altura) {
         this.altura = altura;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
     }
 
     public String getTelefono() {

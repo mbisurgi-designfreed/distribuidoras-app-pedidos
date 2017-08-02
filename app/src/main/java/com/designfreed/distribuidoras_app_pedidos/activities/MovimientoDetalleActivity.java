@@ -1,8 +1,14 @@
 package com.designfreed.distribuidoras_app_pedidos.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,11 +18,14 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.designfreed.distribuidoras_app_pedidos.R;
 import com.designfreed.distribuidoras_app_pedidos.adapters.ItemMovimientoAdapter;
 import com.designfreed.distribuidoras_app_pedidos.constants.Constants;
+import com.designfreed.distribuidoras_app_pedidos.converters.ClienteEntityClienteConverter;
 import com.designfreed.distribuidoras_app_pedidos.domain.Chofer;
+import com.designfreed.distribuidoras_app_pedidos.domain.Cliente;
 import com.designfreed.distribuidoras_app_pedidos.entities.ClienteEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.EnvaseEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.EstadoMovimientoEntity;
@@ -26,6 +35,14 @@ import com.designfreed.distribuidoras_app_pedidos.entities.MotivoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.MovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.entities.TipoMovimientoEntity;
 import com.designfreed.distribuidoras_app_pedidos.utils.Utils;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,7 +52,7 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 
-public class MovimientoDetalleActivity extends AppCompatActivity {
+public class MovimientoDetalleActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private ItemMovimientoAdapter itemMovimientoAdapter;
     private ListView itemsListView;
     private TextView txtCodigo;
@@ -45,6 +62,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
     private TextView txtFecha;
     private TextView txtCondicionVentaMovimiento;
     private TextView txtObservaciones;
+    private ImageButton btnUbicar;
     private Spinner cboProducto;
     private EditText txtCantidad;
     private EditText txtPrecio;
@@ -62,12 +80,24 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
     private List<MotivoEntity> motivos = new ArrayList<>();
     private List<ItemMovimientoEntity> items = new ArrayList<>();
 
+    private ProgressDialog mProgress;
+
+    private GoogleApiClient mGoogleApiClient;
+
     private Realm realm;
+
+    private final static String TAG = "DetalleActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movimiento_detalle);
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
 
         realm = Realm.getDefaultInstance();
 
@@ -128,7 +158,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
 
                 Float precio = 0F;
 
-                for (ItemListaPrecioEntity item: cliente.getListaPrecioEntity().getItems()) {
+                for (ItemListaPrecioEntity item : cliente.getListaPrecioEntity().getItems()) {
                     if (item.getEnvaseEntity().getEnvaseCodigo().equals(envase.getEnvaseCodigo())) {
                         precio = item.getPrecio();
                         break;
@@ -165,6 +195,31 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         if (movimiento.getMotivoEntity() != null) {
             cboMotivos.setSelection(getIndexMotivo(cboMotivos, movimiento.getMotivoEntity().getId()));
         }
+
+        btnUbicar = (ImageButton) findViewById(R.id.ubicar);
+        btnUbicar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mGoogleApiClient.isConnected()) {
+                    try {
+                        Location location = LocationServices.FusedLocationApi
+                                .getLastLocation(mGoogleApiClient);
+
+                        if (location != null) {
+                            Double lat = location.getLatitude();
+                            Double lng = location.getLongitude();
+
+                            mProgress.setMessage("Guardando coordenadas ...");
+                            mProgress.show();
+
+                            Log.i("LatLng", lat + ", " + lng);
+                        }
+                    } catch (SecurityException e) {
+                        Log.i(TAG, e.toString());
+                    }
+                }
+            }
+        });
 
         btnAgregar = (ImageButton) findViewById(R.id.agregar);
         btnAgregar.setOnClickListener(new View.OnClickListener() {
@@ -209,7 +264,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
 
                         final RealmList<ItemMovimientoEntity> itemsModificados = new RealmList<>();
 
-                        for (ItemMovimientoEntity item: items) {
+                        for (ItemMovimientoEntity item : items) {
                             ItemMovimientoEntity itemMovimientoEntity = item;
 
                             if (item.getId() == null) {
@@ -227,7 +282,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
                         MovimientoEntity movimientoEntity = realm.where(MovimientoEntity.class).equalTo("id", movimiento.getId()).findFirst();
                         movimientoEntity.setEstadoMovimientoEntity((EstadoMovimientoEntity) cboEstados.getSelectedItem());
                         movimientoEntity.setVisito(cbVisito.isChecked());
-                        if (((MotivoEntity)cboMotivos.getSelectedItem()).getId() != null) {
+                        if (((MotivoEntity) cboMotivos.getSelectedItem()).getId() != null) {
                             movimientoEntity.setMotivoEntity((MotivoEntity) cboMotivos.getSelectedItem());
                         } else {
                             movimientoEntity.setMotivoEntity(null);
@@ -247,10 +302,24 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        mGoogleApiClient.disconnect();
+    }
+
     private void LoadEnvases() {
         RealmResults<EnvaseEntity> envases = realm.where(EnvaseEntity.class).findAll();
 
-        for (EnvaseEntity envase: envases) {
+        for (EnvaseEntity envase : envases) {
             this.envases.add(envase);
         }
     }
@@ -258,7 +327,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
     private void LoadEstados() {
         RealmResults<EstadoMovimientoEntity> estados = realm.where(EstadoMovimientoEntity.class).findAll();
 
-        for (EstadoMovimientoEntity estado: estados) {
+        for (EstadoMovimientoEntity estado : estados) {
             this.estados.add(estado);
         }
     }
@@ -268,7 +337,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
 
         this.motivos.add(new MotivoEntity());
 
-        for (MotivoEntity motivo: motivos) {
+        for (MotivoEntity motivo : motivos) {
             this.motivos.add(motivo);
         }
     }
@@ -286,8 +355,8 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
     private int getIndexEstadoMovimiento(Spinner spinner, Long id) {
         int index = 0;
 
-        for (int i=0;i<spinner.getCount();i++){
-            if (((EstadoMovimientoEntity)spinner.getItemAtPosition(i)).getIdCrm().equals(id)){
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (((EstadoMovimientoEntity) spinner.getItemAtPosition(i)).getIdCrm().equals(id)) {
                 index = i;
                 break;
             }
@@ -299,13 +368,78 @@ public class MovimientoDetalleActivity extends AppCompatActivity {
     private int getIndexMotivo(Spinner spinner, Long id) {
         int index = 0;
 
-        for (int i=0;i<spinner.getCount();i++){
-            if (((MotivoEntity)spinner.getItemAtPosition(i)).getIdCrm() != null && ((MotivoEntity)spinner.getItemAtPosition(i)).getIdCrm().equals(id)){
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (((MotivoEntity) spinner.getItemAtPosition(i)).getIdCrm() != null && ((MotivoEntity) spinner.getItemAtPosition(i)).getIdCrm().equals(id)) {
                 index = i;
                 break;
             }
         }
 
         return index;
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        Log.i(TAG, "onConnected()");
+
+        try {
+            Location location = LocationServices.FusedLocationApi
+                    .getLastLocation(mGoogleApiClient);
+
+            if (location != null) {
+                Double lat = location.getLatitude();
+                Double lng = location.getLongitude();
+
+                Log.i("LatLng", lat + ", " + lng);
+            }
+        } catch (SecurityException e) {
+            Log.i(TAG, e.toString());
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Log.i(TAG, "onConnectionSuspended()");
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.i(TAG, "onConnectionFailed()");
+    }
+
+    private class UbicarTask extends AsyncTask<Cliente, Void, Cliente> {
+        @Override
+        protected Cliente doInBackground(Cliente... params) {
+            Cliente cli = params[0];
+
+            String url = Constants.SERVER + "distribuidoras-backend/cliente/" + cli.getId();
+
+            try {
+                RestTemplate restTemplate = new RestTemplate();
+
+                ResponseEntity<Cliente> response = restTemplate.postForEntity(url, cli, Cliente.class);
+
+                if (response.getStatusCode() != HttpStatus.OK) {
+                    return null;
+                }
+
+                return response.getBody();
+            } catch (ResourceAccessException connectException) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Cliente cliente) {
+            super.onPostExecute(cliente);
+
+            if (cliente != null) {
+                movimiento.setClienteEntity(new ClienteEntityClienteConverter().clienteToClienteEntity(cliente));
+            } else {
+                Toast.makeText(getApplicationContext(), "Ha ocurrido un error, vuelta a intentarlo", Toast.LENGTH_SHORT).show();
+            }
+
+            mProgress.dismiss();
+        }
     }
 }
