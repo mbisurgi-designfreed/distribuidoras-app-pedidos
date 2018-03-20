@@ -5,7 +5,8 @@
     android:id="@+id/activity_cierre"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.designfreed.distribuidoras_app_pedidos.activities.CierreActivity">
+    tools:context="com.designfreed.distribuidoras_app_pedidos.activities.CierreActivity"
+    android:padding="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,23 +16,26 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Telefonicos"/>
+            android:layout_weight="0.5"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:text="Movimiento"/>
 
         <TextView
-            android:id="@+id/telefonicos"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.2"
-            tools:text="10"/>
-
-        <TextView
-            android:id="@+id/telefonicos_entregados"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
-            android:textColor="@color/colorAccent"
-            tools:text="2"/>
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:text="Total"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:text="Entregado"/>
     </LinearLayout>
 
     <LinearLayout
@@ -42,14 +46,15 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:text="Pre Ruteos"/>
 
         <TextView
             android:id="@+id/pre_ruteos"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
             tools:text="10"/>
 
         <TextView
@@ -57,6 +62,193 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorAccent"
+            tools:text="2"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:background="@drawable/border_bottom">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="Telefonicos"/>
+
+        <TextView
+            android:id="@+id/telefonicos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
+            tools:text="10"/>
+
+        <TextView
+            android:id="@+id/telefonicos_entregados"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorAccent"
+            tools:text="2"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:text="Ventas"/>
+
+        <TextView
+            android:id="@+id/kilos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            tools:text="10"/>
+
+        <TextView
+            android:id="@+id/pesos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            tools:text="10"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="Contado"/>
+
+        <TextView
+            android:id="@+id/contadoKilos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
+            tools:text="10"/>
+
+        <TextView
+            android:id="@+id/contadoPesos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorAccent"
+            tools:text="2"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:background="@drawable/border_bottom">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="Cuenta corriente"/>
+
+        <TextView
+            android:id="@+id/ctacteKilos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
+            tools:text="10"/>
+
+        <TextView
+            android:id="@+id/ctactePesos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorAccent"
+            tools:text="2"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:text="Garrafas"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:text="Cant"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:text="Kilos"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="Garrafa de 10kg"/>
+
+        <TextView
+            android:id="@+id/garrafa10_cant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
+            tools:text="10"/>
+
+        <TextView
+            android:id="@+id/garrafa10_kilos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
             android:textColor="@color/colorAccent"
             tools:text="2"/>
     </LinearLayout>
@@ -69,15 +261,25 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Voleos"/>
+            android:layout_weight="0.5"
+            android:text="Garrafa de 15kg"/>
 
         <TextView
-            android:id="@+id/voleos"
+            android:id="@+id/garrafa15_cant"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
             tools:text="10"/>
+
+        <TextView
+            android:id="@+id/garrafa15_kilos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorAccent"
+            tools:text="2"/>
     </LinearLayout>
 
     <LinearLayout
@@ -88,22 +290,83 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Ventas"/>
+            android:layout_weight="0.5"
+            android:text="Garrafa de 15kg ME"/>
 
         <TextView
-            android:id="@+id/kilos"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.2"
-            tools:text="10"/>
-
-        <TextView
-            android:id="@+id/pesos"
+            android:id="@+id/garrafa15me_cant"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.3"
+            android:textAlignment="textEnd"
             tools:text="10"/>
+
+        <TextView
+            android:id="@+id/garrafa15me_kilos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorAccent"
+            tools:text="2"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="Garrafa de 30kg"/>
+
+        <TextView
+            android:id="@+id/garrafa30_cant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
+            tools:text="10"/>
+
+        <TextView
+            android:id="@+id/garrafa30_kilos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorAccent"
+            tools:text="2"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="Garrafa de 45kg"/>
+
+        <TextView
+            android:id="@+id/garrafa45_cant"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
+            tools:text="10"/>
+
+        <TextView
+            android:id="@+id/garrafa45_kilos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorAccent"
+            tools:text="2"/>
     </LinearLayout>
 
     <Button

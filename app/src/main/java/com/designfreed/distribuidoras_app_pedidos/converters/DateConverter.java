@@ -16,7 +16,7 @@ public class DateConverter {
             e.printStackTrace();
         }
 
-        return fecha.getTime();
+        return fecha.getTime() + 10800000;
     }
 
     public Date longToDate(Long fecha) {

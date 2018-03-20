@@ -37,4 +37,18 @@ public class Utils {
            return null;
        }
    }
+
+   public static Boolean isInteger(String number) {
+        Boolean isValid = false;
+
+        try {
+            Integer.parseInt(number);
+
+            isValid = true;
+        } catch (NumberFormatException ex) {
+
+        }
+
+        return isValid;
+   }
 }

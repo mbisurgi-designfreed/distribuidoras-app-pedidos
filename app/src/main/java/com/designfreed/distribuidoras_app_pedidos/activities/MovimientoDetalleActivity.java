@@ -41,6 +41,7 @@ import com.google.android.gms.location.LocationServices;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
@@ -205,6 +206,8 @@ public class MovimientoDetalleActivity extends AppCompatActivity implements Goog
                         Location location = LocationServices.FusedLocationApi
                                 .getLastLocation(mGoogleApiClient);
 
+                        Log.i(TAG, location.toString());
+
                         if (location != null) {
                             Double lat = location.getLatitude();
                             Double lng = location.getLongitude();
@@ -214,7 +217,11 @@ public class MovimientoDetalleActivity extends AppCompatActivity implements Goog
 
                             Log.i("LatLng", lat + ", " + lng);
 
-                            new UbicarTask().execute();
+                            Cliente cliente = new ClienteEntityClienteConverter().clienteEntityToCliente(movimiento.getClienteEntity());
+                            cliente.setLat(lat);
+                            cliente.setLng(lng);
+
+                            new UbicarTask().execute(cliente);
                         }
                     } catch (SecurityException e) {
                         Log.i(TAG, e.toString());
@@ -231,8 +238,16 @@ public class MovimientoDetalleActivity extends AppCompatActivity implements Goog
 
                 EnvaseEntity env = (EnvaseEntity) cboProducto.getSelectedItem();
 
-                Integer cantidad = Integer.valueOf(txtCantidad.getText().toString());
-                Float precio = Float.valueOf(txtPrecio.getText().toString());
+                Integer cantidad;
+                Float precio;
+
+                try {
+                    cantidad = Integer.valueOf(txtCantidad.getText().toString());
+                    precio = Float.valueOf(txtPrecio.getText().toString());
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Debe ingresar una cantidad", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 item.setEnvaseEntity(env);
                 item.setCantidad(cantidad);
@@ -252,6 +267,8 @@ public class MovimientoDetalleActivity extends AppCompatActivity implements Goog
         btnGrabar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Boolean exit = false;
+
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
@@ -262,6 +279,10 @@ public class MovimientoDetalleActivity extends AppCompatActivity implements Goog
                             idItem = 1L;
                         } else {
                             idItem = primaryKeyItem.longValue() + 1;
+                        }
+
+                        if (((EstadoMovimientoEntity)cboEstados.getSelectedItem()).getIdCrm() == 4 && ((MotivoEntity)cboMotivos.getSelectedItem()).getId() == null) {
+                            return;
                         }
 
                         final RealmList<ItemMovimientoEntity> itemsModificados = new RealmList<>();
@@ -296,12 +317,19 @@ public class MovimientoDetalleActivity extends AppCompatActivity implements Goog
                     }
                 });
 
+                if (((EstadoMovimientoEntity)cboEstados.getSelectedItem()).getIdCrm() == 4 && ((MotivoEntity)cboMotivos.getSelectedItem()).getId() == null) {
+                    Toast.makeText(getApplicationContext(), "Si el pedido no esta entregado debe seleccionar el motivo", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.putExtra("chofer", activeChofer);
 
                 startActivity(intent);
             }
         });
+
+        mProgress = new ProgressDialog(this);
     }
 
     @Override
@@ -414,7 +442,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity implements Goog
         protected Cliente doInBackground(Cliente... params) {
             Cliente cli = params[0];
 
-            String url = Constants.SERVER + "distribuidoras-backend/cliente/" + cli.getId();
+            String url = Constants.SERVER + "distribuidoras-backend/cliente/update";
 
             try {
                 RestTemplate restTemplate = new RestTemplate();
@@ -436,7 +464,7 @@ public class MovimientoDetalleActivity extends AppCompatActivity implements Goog
             super.onPostExecute(cliente);
 
             if (cliente != null) {
-                movimiento.setClienteEntity(new ClienteEntityClienteConverter().clienteToClienteEntity(cliente));
+                Toast.makeText(getApplicationContext(), "Coordenadas actualizadas correctamente", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getApplicationContext(), "Ha ocurrido un error, vuelta a intentarlo", Toast.LENGTH_SHORT).show();
             }

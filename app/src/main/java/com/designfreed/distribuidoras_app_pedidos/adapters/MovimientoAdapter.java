@@ -33,6 +33,7 @@ public class MovimientoAdapter extends ArrayAdapter<MovimientoEntity> implements
 
     public MovimientoAdapter(Context context, List<MovimientoEntity> objects) {
         super(context, 0, objects);
+
         this.mMovimientos = objects;
         this.mMovimientosFiltrados = objects;
     }
@@ -131,8 +132,14 @@ public class MovimientoAdapter extends ArrayAdapter<MovimientoEntity> implements
                 List<MovimientoEntity> filtrado = new ArrayList<>();
 
                 for (MovimientoEntity mov: mMovimientos) {
-                    if (mov.getClienteEntity().getCalle().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                        filtrado.add(mov);
+                    if (Utils.isInteger(constraint.toString())) {
+                        if (mov.getClienteEntity().getIdCrm() == Integer.parseInt(constraint.toString())) {
+                            filtrado.add(mov);
+                        }
+                    } else {
+                        if (mov.getClienteEntity().getCalle().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                            filtrado.add(mov);
+                        }
                     }
                 }
 
